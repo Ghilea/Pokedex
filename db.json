@@ -1,0 +1,24 @@
+{
+  "user": [
+    {
+      "id": "",
+      "name": "",
+      "email": "",
+      "password": ""
+    }
+  ],
+  "pokemon_likes": [
+    {
+      "id": "",
+      "user_id": ""
+    }
+  ],
+  "notice": [
+    {
+      "id": "",
+      "title": "",
+      "content": "",
+      "user_id": ""
+    }
+  ]
+}

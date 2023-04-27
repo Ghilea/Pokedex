@@ -1,0 +1,42 @@
+{
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "build": "remix build",
+    "dev": "concurrently \"npm run server\" \"remix dev\"",
+    "start": "remix-serve build",
+    "typecheck": "tsc",
+    "server": "json-server --watch db.json --port 3004"
+  },
+  "dependencies": {
+    "@remix-run/node": "^1.15.0",
+    "@remix-run/react": "^1.15.0",
+    "@remix-run/serve": "^1.15.0",
+    "isbot": "^3.6.10",
+    "pokedex-promise-v2": "^4.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zustand": "^4.3.7",
+    "json-server": "^0.17.3"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.15.0",
+    "@remix-run/eslint-config": "^1.15.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.1",
+    "eslint": "^8.39.0",
+    "tailwindcss": "^3.3.2",
+    "postcss": "^8.4.23",
+    "postcss-cli": "^10.1.0",
+    "postcss-import": "^15.1.0",
+    "postcss-nested": "^6.0.1",
+    "autoprefixer": "^10.4.14",
+    "cssnano": "^6.0.0",
+    "postcss-preset-env": "^8.3.2",
+    "typescript": "^5.0.4",
+    "concurrently": "^8.0.1"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
