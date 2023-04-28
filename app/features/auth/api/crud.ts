@@ -1,23 +1,9 @@
-export const createAccount = (body: any) => {
+export const createAccount = (data: any) => {
     const url = "http://localhost:3004/users";
 
     return fetch(url, {
         method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-  
-}
-
-
-export const LoginToAccount = (body: any) => {
-    const url = "http://localhost:3004/users";
-
-    return fetch(url, {
-        method: "POST",
-        body: JSON.stringify(body),
+        body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json",
         },
@@ -25,12 +11,26 @@ export const LoginToAccount = (body: any) => {
 
 }
 
-export const ForgotPassword = (body: any) => {
+export const getUsers = async () => {
+    const url = "http://localhost:3004/users";
+
+    const res = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    
+    return await res.json();
+
+}
+
+export const ForgotPassword = (data: any) => {
     const url = "http://localhost:3004/users";
 
     return fetch(url, {
         method: "POST",
-        body: JSON.stringify(body),
+        body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json",
         },

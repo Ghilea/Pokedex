@@ -3,16 +3,18 @@ import { useEffect, useRef, useState } from "react";
 interface Props {
   isError?: boolean;
   value?: any;
-  handleChange?: any;
+  onChange?: any;
   children: React.ReactNode;
   name: string;
+  type?: string;
 }
 const InputField = ({
   isError = false,
   value,
-  handleChange,
+  onChange,
   children,
   name,
+  type = "text",
   ...restProps
 }: Props) => {
   const ref = useRef<any | null>(null);
@@ -41,11 +43,12 @@ const InputField = ({
       >
         <div className="flex items-center">
           <input
+            type={type}
             id={name}
             name={name}
             className={`flex items-center rounded-3xl p-5 border-none w-full ${classes}`}
             value={value}
-            onChange={handleChange}
+            onChange={onChange}
             {...restProps}
           />
         </div>

@@ -1,19 +1,51 @@
 {
-  "user": [
+  "users": [
     {
-      "id": "",
-      "name": "",
-      "email": "",
-      "password": ""
+      "id": "1",
+      "email": "tougent@gmail.com",
+      "password": "123"
+    },
+    {
+      "id": "2",
+      "email": "test@test.com",
+      "password": "123"
+    },
+    {
+      "id": "3",
+      "email": "test",
+      "password": "123"
     }
+  ],
+  "pokemons": [
+    [
+      {
+        "name": "bulbasaur",
+        "url": "https://pokeapi.co/api/v2/pokemon/1/"
+      },
+      {
+        "name": "ivysaur",
+        "url": "https://pokeapi.co/api/v2/pokemon/2/"
+      }
+    ],
+    [
+      {
+        "name": "bulbasaur",
+        "url": "https://pokeapi.co/api/v2/pokemon/1/"
+      },
+      {
+        "name": "ivysaur",
+        "url": "https://pokeapi.co/api/v2/pokemon/2/"
+      }
+    ]
   ],
   "pokemon_likes": [
     {
       "id": "",
-      "user_id": ""
+      "user_id": "",
+      "pokemon_id": ""
     }
   ],
-  "notice": [
+  "notifications": [
     {
       "id": "",
       "title": "",
