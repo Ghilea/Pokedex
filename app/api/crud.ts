@@ -23,9 +23,14 @@ export const getPokemons: any = async () => {
 
 export const addPokemon: any = async (data: any) => {
     const url = "http://localhost:3004/pokemons";
-    console.log(data)
-    const newObjectData = data.map((pokemons: {name: string}, index: number) => { 
-        console.log({ id: index+1, name: pokemons.name });
+    
+    const newObjectData = data.map(async (pokemons: { name: string, url: string }) => {
+        const detail = await fetch(pokemons.url)
+            .then((response) => response.json())
+            .then((data) => data)
+        console.log({
+            id: detail.order, name: pokemons.name, image: detail.sprites.other.dream_world.front_default, weight: detail.weight, abilities: detail.abilities, stats: { hp: Object.values(detail.stats).filter((item: any) => item.stat.name === "hp")[0].base_stat, attack: Object.values(detail.stats).filter((item: any) => item.stat.name === "attack")[0].base_stat, defense: Object.values(detail.stats).filter((item: any) => item.stat.name === "defense")[0].base_stat, speed: Object.values(detail.stats).filter((item: any) => item.stat.name === "speed")[0].base_stat }
+        });
     });
     /* return fetch(url, {
         method: "POST",
