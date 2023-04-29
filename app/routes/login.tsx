@@ -1,4 +1,4 @@
-import { V2_MetaFunction, redirect } from "@remix-run/node";
+import { V2_MetaFunction } from "@remix-run/node";
 import AuthForm from "~/features/auth/authForm";
 import loginCss from "~/styles/components/login.css";
 import { authControllerLogin } from "~/features/auth/authController";

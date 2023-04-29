@@ -1,19 +1,31 @@
 export const downloadPokemonFromAPI: any = async () => {
-    const url = "https://pokeapi.co/api/v2/pokemon/?limit=1";
+    const url = "https://pokeapi.co/api/v2/pokemon/?limit=4";
 
     return getPokemons().then((response: Response) => response.json()).then(async (data: any) => {
+        console.log(data.length > 0)
         if (data.length === 0) {
             return await fetch(url)
                 .then((response) => response.json())
-                .then((data) => addPokemon(data.results));
+                .then((data) => {
+                    let results = data.results;
+
+                    let promisesArray = results.map((result: { url: string }) => {
+                        return fetch(result.url).then(response => response.json());
+                    });
+
+                    return Promise.all(promisesArray);
+                }).then((data) => {
+                    addPokemon(data);
+                });
         }
     });
 }
 
-export const getPokemons: any = async () => {
-    const url = "http://localhost:3004/pokemons";
+export const getPokemons: any = async (type: string, search: string | number) => {
+    const url = 'http://localhost:3004/pokemons';
+    const urlSearch = `http://localhost:3004/pokemons?${type}=${search}`;
 
-    return await fetch(url, {
+    return await fetch(search ? urlSearch : url, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -23,20 +35,21 @@ export const getPokemons: any = async () => {
 
 export const addPokemon: any = async (data: any) => {
     const url = "http://localhost:3004/pokemons";
-    
-    const newObjectData = data.map(async (pokemons: { name: string, url: string }) => {
-        const detail = await fetch(pokemons.url)
-            .then((response) => response.json())
-            .then((data) => data)
-        console.log({
-            id: detail.order, name: pokemons.name, image: detail.sprites.other.dream_world.front_default, weight: detail.weight, abilities: detail.abilities, stats: { hp: Object.values(detail.stats).filter((item: any) => item.stat.name === "hp")[0].base_stat, attack: Object.values(detail.stats).filter((item: any) => item.stat.name === "attack")[0].base_stat, defense: Object.values(detail.stats).filter((item: any) => item.stat.name === "defense")[0].base_stat, speed: Object.values(detail.stats).filter((item: any) => item.stat.name === "speed")[0].base_stat }
-        });
-    });
-    /* return fetch(url, {
+
+    const pokemons = data.map((pokemons: { order: number; name: string; sprites: { other: { dream_world: { front_default: string; }; }; }; weight: number; types: any, abilities: object; stats: object; }) => {
+        return {
+            id: pokemons.order, name: pokemons.name, image: pokemons.sprites.other.dream_world.front_default, weight: pokemons.weight, abilities: pokemons.abilities, stats: pokemons.stats, type: pokemons.types[0].type.name
+        }
+    })
+
+    return fetch(url, { 
         method: "POST",
-        body: JSON.stringify({  }),
+        body: pokemons.map((items: any) => {
+            console.log(items)
+            return JSON.stringify(items)
+        }),
         headers: {
             "Content-Type": "application/json",
         },
-    }); */
+    });
 }

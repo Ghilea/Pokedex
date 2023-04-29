@@ -4,17 +4,23 @@ interface Props {
   isError?: boolean;
   value?: any;
   onChange?: any;
-  children: React.ReactNode;
   name: string;
+  label?: string | null;
   type?: string;
+  className?: string;
+  placeholder?: string;
+  defaultValue?: any;
 }
 const InputField = ({
   isError = false,
   value,
   onChange,
-  children,
   name,
+  label = null,
   type = "text",
+  className = "",
+  placeholder = "",
+  defaultValue = "",
   ...restProps
 }: Props) => {
   const ref = useRef<any | null>(null);
@@ -32,22 +38,24 @@ const InputField = ({
   if (error) classes.push("shadow-xl");
 
   return (
-    <div className="flex flex-col items-center justify-center w-full gap-5 px-16">
-      <label htmlFor={name} className="w-full text-xl" {...restProps}>
-        {children}
-      </label>
+    <div className="flex flex-col items-center justify-center w-full gap-5">
+      {label && (
+        <label htmlFor={name} className="w-full text-xl" {...restProps}></label>
+      )}
       <div
         className="relative w-full shadow-xl bg-opacity-30 rounded-3xl backdrop-blur-md"
         onClick={handleClick}
         ref={ref}
       >
-        <div className="flex items-center">
+        <div className="flex items-center w-full">
           <input
+            placeholder={placeholder}
             type={type}
             id={name}
             name={name}
-            className={`flex items-center rounded-3xl p-5 border-none w-full ${classes}`}
+            className={`flex items-center rounded-3xl p-5 border-none w-full ${classes} ${className}`}
             value={value}
+            defaultValue={defaultValue}
             onChange={onChange}
             {...restProps}
           />

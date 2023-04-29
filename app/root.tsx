@@ -9,6 +9,7 @@ import {
 import appStyles from "./styles/app.css";
 import cssReset from "./styles/components/reset.css";
 import Navigation from "./features/navigation";
+import { downloadPokemonFromAPI } from "~/api/crud";
 
 export default function App() {
   return (
@@ -30,6 +31,12 @@ export default function App() {
       </body>
     </html>
   );
+}
+
+export function loader() {
+  downloadPokemonFromAPI();
+
+  return null;
 }
 
 export function links() {
