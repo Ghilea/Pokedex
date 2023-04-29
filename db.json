@@ -16,8 +16,7 @@
       "password": "123"
     }
   ],
-  "storage": [
-  ],
+  "pokemons": [],
   "pokemon_likes": [
     {
       "id": "",
