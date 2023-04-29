@@ -2,7 +2,7 @@ export const downloadPokemonFromAPI: any = async () => {
     const url = "https://pokeapi.co/api/v2/pokemon/?limit=4";
 
     return getPokemons().then((response: Response) => response.json()).then(async (data: any) => {
-        console.log(data.length > 0)
+        console.log(data)
         if (data.length === 0) {
             return await fetch(url)
                 .then((response) => response.json())
@@ -15,7 +15,25 @@ export const downloadPokemonFromAPI: any = async () => {
 
                     return Promise.all(promisesArray);
                 }).then((data) => {
-                    addPokemon(data);
+
+                    data.map((items: any) => {
+
+                        const abilities = items.abilities.map((item: any) => item.ability.name);
+                        const stats = items.stats.map((item: any) => { return { [item.stat.name]: item.base_stat } });
+
+                        addPokemon({
+                            id: items.order,
+                            name: items.name,
+                            image: items.sprites.other.dream_world.front_default,
+                            weight: items.weight,
+                            abilities: abilities,
+                            stats: stats,
+                            type: items.types[0].type.name
+                        })
+
+                    })
+
+                    
                 });
         }
     });
@@ -23,7 +41,7 @@ export const downloadPokemonFromAPI: any = async () => {
 
 export const getPokemons: any = async (type: string, search: string | number) => {
     const url = 'http://localhost:3004/pokemons';
-    const urlSearch = `http://localhost:3004/pokemons?${type}=${search}`;
+    const urlSearch = `http://localhost:3004/pokemons/1?${type}=${search}`;
 
     return await fetch(search ? urlSearch : url, {
         method: "GET",
@@ -36,18 +54,9 @@ export const getPokemons: any = async (type: string, search: string | number) =>
 export const addPokemon: any = async (data: any) => {
     const url = "http://localhost:3004/pokemons";
 
-    const pokemons = data.map((pokemons: { order: number; name: string; sprites: { other: { dream_world: { front_default: string; }; }; }; weight: number; types: any, abilities: object; stats: object; }) => {
-        return {
-            id: pokemons.order, name: pokemons.name, image: pokemons.sprites.other.dream_world.front_default, weight: pokemons.weight, abilities: pokemons.abilities, stats: pokemons.stats, type: pokemons.types[0].type.name
-        }
-    })
-
-    return fetch(url, { 
+    return fetch(url, {
         method: "POST",
-        body: pokemons.map((items: any) => {
-            console.log(items)
-            return JSON.stringify(items)
-        }),
+        body: JSON.stringify(data) ,
         headers: {
             "Content-Type": "application/json",
         },
