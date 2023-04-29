@@ -41,7 +41,7 @@ export const downloadPokemonFromAPI: any = async () => {
 
 export const getPokemons: any = async (search: string | number, type: string = 'name') => {
     const url = 'http://localhost:3004/pokemons';
-    const urlSearch = `http://localhost:3004/pokemons/?${type}_like=${search}`;
+    const urlSearch = `http://localhost:3004/pokemons/?${Number(search) ? `id=${search}` : `name_like=${search}`}`;
 
     return await fetch(search ? urlSearch : url, {
         method: "GET",
