@@ -2,7 +2,6 @@ export const downloadPokemonFromAPI: any = async () => {
     const url = "https://pokeapi.co/api/v2/pokemon/?limit=4";
 
     return getPokemons().then((response: Response) => response.json()).then(async (data: any) => {
-        console.log(data)
         if (data.length === 0) {
             return await fetch(url)
                 .then((response) => response.json())
@@ -39,9 +38,9 @@ export const downloadPokemonFromAPI: any = async () => {
     });
 }
 
-export const getPokemons: any = async (search: string | number, type: string = 'name') => {
-    const url = 'http://localhost:3004/pokemons';
-    const urlSearch = `http://localhost:3004/pokemons/?${Number(search) ? `id=${search}` : `name_like=${search}`}`;
+export const getPokemons: any = async (search: string | number, sort: string = 'name') => {
+    const url = `http://localhost:3004/pokemons?_sort=${sort}`;
+    const urlSearch = `http://localhost:3004/pokemons/?_sort=${sort}&${Number(search) ? `id=${search}` : `name_like=${search}`}`;
 
     return await fetch(search ? urlSearch : url, {
         method: "GET",

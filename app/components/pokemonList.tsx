@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import heart from "../../public/assets/icons/heart.svg";
 import { colorSelection } from "~/utiles/color-selection";
 
@@ -20,21 +21,31 @@ const PokemonList = ({ data }: Props) => {
         ) => {
           return (
             <div
-              className={`flex items-center justify-start h-16 gap-3 px-5 py-3 overflow-hidden capitalize rounded-md bg-gradient-to-r relative ${colorSelection(
+              className={`flex items-center justify-start h-16 gap-3 px-5 py-3 overflow-hidden capitalize rounded-md bg-gradient-to-r relative shadow-lg ${colorSelection(
                 pokemons.type
               )}`}
               key={pokemons.name + index}
             >
-              <span className="text-lg">#{pokemons.id}</span>
-              <h2>{pokemons.name}</h2>
-              <img
-                className="absolute right-[10%] object-cover object-center w-[7em] opacity-70"
-                src={pokemons.image}
-                alt={`${pokemons.name}`}
-              />
-              <button className="absolute w-10 h-10 right-5">
-                <img src={heart} alt="like" />
-              </button>
+              <span className="flex items-center justify-center w-5 h-5 p-5 text-lg rounded-full shadow-lg bg-gradient-to-r from-slate-100 to-slate-300">
+                #{pokemons.id}
+              </span>
+
+              <h2 className="w-full ml-3 text-white">
+                <Link to={`/view?${pokemons.id}`}>{pokemons.name}</Link>
+              </h2>
+
+              <div>
+                <img
+                  className="absolute right-[10%] object-cover object-center w-[7em] opacity-70"
+                  src={pokemons.image}
+                  alt={`${pokemons.name}`}
+                />
+              </div>
+              <div>
+                <button className="w-5 h-5">
+                  <img src={heart} alt="like" />
+                </button>
+              </div>
             </div>
           );
         }
