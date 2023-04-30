@@ -1,7 +1,7 @@
 interface Props {
   width?: string;
   fontSize?: string;
-  icon?: React.ReactNode;
+  icon?: string | null;
   children: React.ReactNode;
   className?: string;
   onClick?: any;
@@ -24,7 +24,7 @@ const Button = ({
       {...restProps}
     >
       {children && <span>{children}</span>}
-      {icon}
+      {icon && <img className="w-5 h-5" src={icon} alt="" />}
     </button>
   );
 };

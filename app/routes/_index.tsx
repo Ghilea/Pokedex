@@ -38,5 +38,6 @@ export function loader({ request }: ActionRequest) {
   const param = new URLSearchParams(url.search);
   const search = param.get("search");
   const sort = param.get("sort");
-  return getPokemons(search, sort);
+  const order = param.get("order");
+  return getPokemons(search, sort, order);
 }

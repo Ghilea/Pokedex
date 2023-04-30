@@ -38,9 +38,9 @@ export const downloadPokemonFromAPI: any = async () => {
     });
 }
 
-export const getPokemons: any = async (search: string | number, sort: string = 'name') => {
-    const url = `http://localhost:3004/pokemons?_sort=${sort}`;
-    const urlSearch = `http://localhost:3004/pokemons/?_sort=${sort}&${Number(search) ? `id=${search}` : `name_like=${search}`}`;
+export const getPokemons: any = async (search: string | number, sort: string = 'name', order: string = 'asc') => {
+    const url = `http://localhost:3004/pokemons?_sort=${sort}&_order=${order}`;
+    const urlSearch = `http://localhost:3004/pokemons/?_sort=${sort}&_order=${order}&${Number(search) ? `id=${search}` : `name_like=${search}`}`;
 
     return await fetch(search ? urlSearch : url, {
         method: "GET",
