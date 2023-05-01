@@ -2,34 +2,10 @@
   "users": [
     {
       "id": "1",
-      "email": "tougent@gmail.com",
-      "password": "123"
-    },
-    {
-      "id": "2",
-      "email": "test@test.com",
-      "password": "123"
-    },
-    {
-      "id": "3",
       "email": "test",
       "password": "123"
     }
   ],
   "pokemons": [],
-  "pokemon_likes": [
-    {
-      "id": "",
-      "user_id": "",
-      "pokemon_id": ""
-    }
-  ],
-  "notifications": [
-    {
-      "id": "",
-      "title": "",
-      "content": "",
-      "user_id": ""
-    }
-  ]
+  "likes": []
 }

@@ -1,7 +1,7 @@
-import { Link } from "@remix-run/react";
+import { Link, Form } from "@remix-run/react";
 import heart from "../../public/assets/icons/heart.svg";
+import redHeart from "../../public/assets/icons/redHeart.svg";
 import { colorSelection } from "~/utiles/color-selection";
-
 interface Props {
   data: any;
 }
@@ -9,10 +9,10 @@ interface Props {
 const PokemonList = ({ data }: Props) => {
   return (
     <div className="flex flex-col w-full gap-2 text-3xl text-black">
-      {data?.map(
+      {data[0]?.map(
         (
           pokemons: {
-            id: string;
+            id: number;
             name: string;
             image: string;
             type: string;
@@ -21,7 +21,7 @@ const PokemonList = ({ data }: Props) => {
         ) => {
           return (
             <div
-              className={`flex items-center justify-start h-16 gap-3 px-5 py-3 overflow-hidden capitalize rounded-md bg-gradient-to-r relative shadow-lg ${colorSelection(
+              className={`flex items-center justify-start h-24 gap-3 px-5 py-3 overflow-hidden capitalize rounded-md relative shadow-lg sm:duration-300 ${colorSelection(
                 pokemons.type
               )}`}
               key={pokemons.name + index}
@@ -36,16 +36,27 @@ const PokemonList = ({ data }: Props) => {
 
               <div>
                 <img
-                  className="absolute right-[10%] object-cover object-center w-[7em] opacity-70"
+                  className="object-cover object-center w-[7em] opacity-70"
                   src={pokemons.image}
                   alt={`${pokemons.name}`}
                 />
               </div>
-              <div>
+              <Form method="post">
+                <input name="pokemon_id" value={pokemons.id} hidden readOnly />
                 <button className="w-5 h-5">
-                  <img src={heart} alt="like" />
+                  <img
+                    src={
+                      data[1].find(
+                        (o: { pokemon_id: number }) =>
+                          o.pokemon_id == pokemons.id
+                      )
+                        ? redHeart
+                        : heart
+                    }
+                    alt="like"
+                  />
                 </button>
-              </div>
+              </Form>
             </div>
           );
         }

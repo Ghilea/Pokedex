@@ -1,5 +1,5 @@
 export const downloadPokemonFromAPI: any = async () => {
-    const url = "https://pokeapi.co/api/v2/pokemon/?limit=4";
+    const url = "https://pokeapi.co/api/v2/pokemon/?limit=151";
 
     return getPokemons().then((response: Response) => response.json()).then(async (data: any) => {
         if (data.length === 0) {
@@ -15,13 +15,13 @@ export const downloadPokemonFromAPI: any = async () => {
                     return Promise.all(promisesArray);
                 }).then((data) => {
 
-                    data.map((items: any) => {
+                    data.map((items: any, index: number) => {
 
                         const abilities = items.abilities.map((item: any) => item.ability.name);
                         const stats = items.stats.map((item: any) => { return { [item.stat.name]: item.base_stat } });
 
                         addPokemon({
-                            id: items.order,
+                            id: index + 1,
                             name: items.name,
                             image: items.sprites.other.dream_world.front_default,
                             weight: items.weight,
@@ -32,7 +32,7 @@ export const downloadPokemonFromAPI: any = async () => {
 
                     })
 
-                    
+
                 });
         }
     });
@@ -55,7 +55,41 @@ export const addPokemon: any = async (data: any) => {
 
     return fetch(url, {
         method: "POST",
-        body: JSON.stringify(data) ,
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
+
+export const addLike: any = async (pokemon_id: any, userId: number) => {
+    const url = "http://localhost:3004/likes";
+
+    return fetch(url, {
+        method: "POST",
+        body: JSON.stringify({ user_id: userId, pokemon_id: pokemon_id }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }); 
+}
+
+export const deleteLike: any = async (id: any) => {
+    const url = `http://localhost:3004/likes/${id}`;
+
+    return fetch(url, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
+
+export const getLikes: any = async (userId: number) => {
+    const url = `http://localhost:3004/likes?user_id=${userId}`;
+
+    return fetch(url, {
+        method: "GET",
         headers: {
             "Content-Type": "application/json",
         },

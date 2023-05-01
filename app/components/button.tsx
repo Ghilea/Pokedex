@@ -19,7 +19,7 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`w-full max-w-[6em] shadow-xl py-3 px-1 flex justify-center items-center gap-1 rounded-md text-black bg-red-700 bg-opacity-50 hover:bg-opacity-75 transition-all ${className}}`}
+      className={`w-full max-w-[6em] shadow-xl py-3 px-1 flex justify-center items-center gap-1 rounded-md text-white bg-blue-300 bg-opacity-50 hover:bg-opacity-75 transition-all ${className}}`}
       style={{ width: width, fontSize: fontSize }}
       {...restProps}
     >

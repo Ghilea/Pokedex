@@ -40,7 +40,6 @@ const Search = ({ param }: Props) => {
     submit({ search: e.target.value, sort: sort, order: order ? 'asc' : 'desc'}, { method: "GET" });
   };
   
-  console.log(order);
   return (
     <Form
       className="flex flex-col items-center justify-start w-full gap-3 mb-3"

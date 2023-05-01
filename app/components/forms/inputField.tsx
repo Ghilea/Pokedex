@@ -43,7 +43,7 @@ const InputField = ({
         <label htmlFor={name} className="w-full text-xl" {...restProps}></label>
       )}
       <div
-        className="relative w-full shadow-xl bg-opacity-30 rounded-3xl backdrop-blur-md"
+        className="relative w-full bg-white shadow-xl bg-opacity-70 rounded-3xl backdrop-blur-md"
         onClick={handleClick}
         ref={ref}
       >
