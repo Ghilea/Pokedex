@@ -46,8 +46,10 @@ export async function action({ request }: ActionArgs) {
   console.log(isLiked);
   const deleteIt = isLiked.find((o: { id: number; pokemon_id: string; user_id: number }) => {
     if (o.pokemon_id == data.pokemon_id && o.user_id == userId)
-      deleteLike(o.id);
+      return o.id
   });
 
-  return addLike(data.pokemon_id, userId);
+  console.log('del',deleteIt);
+
+  return deleteIt !== undefined ? deleteLike(deleteIt.id) : addLike(data.pokemon_id, userId);
 }
