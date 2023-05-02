@@ -29,7 +29,7 @@ export default function Index() {
 export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const userId: any = session.get("userId");
-
+  
   const url = new URL(request.url);
   const param = new URLSearchParams(url.search);
   const search = param.get("search");

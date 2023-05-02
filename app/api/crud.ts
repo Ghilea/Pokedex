@@ -78,7 +78,7 @@ export const addLike: any = async (pokemon_id: any, userId: number) => {
 
     return fetch(url, {
         method: "POST",
-        body: JSON.stringify({ user_id: userId, pokemon_id: pokemon_id }),
+        body: JSON.stringify({ user_id: userId, pokemon_id: pokemon_id, date: new Date() }),
         headers: {
             "Content-Type": "application/json",
         },
@@ -98,6 +98,17 @@ export const deleteLike: any = async (id: any) => {
 
 export const getLikes: any = async (userId: number) => {
     const url = `http://localhost:3004/likes?user_id=${userId}`;
+
+    return fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
+
+export const getNotification: any = async () => {
+    const url = `http://localhost:3004/likes`;
 
     return fetch(url, {
         method: "GET",

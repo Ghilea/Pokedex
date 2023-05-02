@@ -10,6 +10,7 @@ interface Props {
   className?: string;
   placeholder?: string;
   defaultValue?: any;
+  required?: boolean;
 }
 const InputField = ({
   isError = false,
@@ -21,6 +22,7 @@ const InputField = ({
   className = "",
   placeholder = "",
   defaultValue = "",
+  required,
   ...restProps
 }: Props) => {
   const ref = useRef<any | null>(null);
@@ -49,6 +51,7 @@ const InputField = ({
       >
         <div className="flex items-center w-full">
           <input
+            required={required}
             placeholder={placeholder}
             type={type}
             id={name}

@@ -8,7 +8,18 @@ export const createAccount = (data: any) => {
             "Content-Type": "application/json",
         },
     });
+}
 
+export const dateLoginToUserAccount = (userId: number) => {
+    const url = `http://localhost:3004/users/${userId}`;
+
+    return fetch(url, {
+        method: "PATCH",
+        body: JSON.stringify({ lastLogin: new Date() }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
 }
 
 export const getUsers = async () => {
@@ -22,7 +33,6 @@ export const getUsers = async () => {
     });
     
     return await res.json();
-
 }
 
 export const ForgotPassword = (data: any) => {
@@ -35,5 +45,4 @@ export const ForgotPassword = (data: any) => {
             "Content-Type": "application/json",
         },
     });
-
 }

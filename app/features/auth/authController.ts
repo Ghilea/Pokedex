@@ -2,8 +2,9 @@ import { getUsers, createAccount } from "~/features/auth/api/crud";
 
 export const authControllerLogin = async (data: any) => {
     const users = await getUsers();
-    const checkLoginAuth = users.filter((e: any) => e.email === data.username && e.password === data.password);
+    const checkLoginAuth = users.filter((e: {email: string, password: string}) => e.email === data.email && e.password === data.password);
 
+    console.log(data)
     if (checkLoginAuth.length === 0) {
         return null;
     }
@@ -12,8 +13,12 @@ export const authControllerLogin = async (data: any) => {
 }
 
 export const authControllerCreate = async (data: any) => {
+    const users = await getUsers();
+    const checkLoginAuth = users.filter((e: {email: string, username: string}) => e.email === data.email && e.username === data.username);
 
-    const created = await createAccount(data);
-
-    return created ? true : false;
+    if (checkLoginAuth.length === 0) {
+        return await createAccount(data)
+    } else {
+        return null;
+    }
 }

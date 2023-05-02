@@ -7,9 +7,9 @@ const AuthForm = () => {
   return (
     <Form className="flex flex-col w-full gap-5" method="post" id="login-form">
       <InputField
-        placeholder="E-post adress"
-        label="E-post adress"
-        name="username"
+        placeholder="E-postadress"
+        label="E-postadress"
+        name="email"
         type="email"
       />
       <InputField

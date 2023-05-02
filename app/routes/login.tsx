@@ -4,6 +4,7 @@ import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getSession, commitSession } from "~/api/services/session.server";
+import { dateLoginToUserAccount } from "~/features/auth/api/crud";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Logga in" }];
@@ -40,7 +41,9 @@ export async function action({ request }: ActionArgs) {
   }
 
   session.set("userId", validation[0]);
+  dateLoginToUserAccount(validation[0].id);
 
+  console.log(validation[0])
   return redirect("/", {
     headers: {
       "Set-Cookie": await commitSession(session),
