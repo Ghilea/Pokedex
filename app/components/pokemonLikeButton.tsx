@@ -1,9 +1,29 @@
-import React from 'react'
+import { Form } from "@remix-run/react";
+import heart from "../../public/assets/icons/heart.svg";
+import redHeart from "../../public/assets/icons/redHeart.svg";
 
-const pokemonLikeButton = () => {
-  return (
-    <div>pokemonLikeButton</div>
-  )
+interface Props { 
+  data: any;
+  id: number;
 }
 
-export default pokemonLikeButton
+const PokemonLikeButton = ({ data, id }: Props) => {
+
+  return (
+    <Form method="post" action="/?index">
+      <input name="pokemon_id" value={id} hidden readOnly />
+      <button className="w-5 h-5">
+        <img
+          src={
+            data.find((o: { pokemon_id: number }) => o.pokemon_id == id)
+              ? redHeart
+              : heart
+          }
+          alt="like"
+        />
+      </button>
+    </Form>
+  );
+}
+
+export default PokemonLikeButton

@@ -1,16 +1,20 @@
-import { Link, Form } from "@remix-run/react";
-import heart from "../../public/assets/icons/heart.svg";
-import redHeart from "../../public/assets/icons/redHeart.svg";
+import { Link } from "@remix-run/react";
 import { colorSelection } from "~/utiles/color-selection";
+import PokemonLikeButton from "./pokemonLikeButton";
+
 interface Props {
   data: any;
 }
 
 const PokemonList = ({ data }: Props) => {
+  
+  const pokemonData = data[0];
+  const likeData = data[1];
+  const userIdData = data[2];
 
   return (
     <div className="flex flex-col w-full gap-2 text-3xl text-black">
-      {data[0]?.map(
+      {pokemonData?.map(
         (
           pokemons: {
             id: number;
@@ -32,38 +36,18 @@ const PokemonList = ({ data }: Props) => {
               </span>
 
               <h2 className="w-full ml-3 text-white">
-                <Link to={`/view?${pokemons.id}`}>{pokemons.name}</Link>
+                <Link to={`/view?id=${pokemons.id}`}>{pokemons.name}</Link>
               </h2>
 
               <div>
                 <img
                   className="object-cover object-center w-[7em] opacity-70"
                   src={pokemons.image}
-                  alt={`${pokemons.name}`}
+                  alt={pokemons.name}
                 />
               </div>
-              {data[2] && (
-                <Form method="post">
-                  <input
-                    name="pokemon_id"
-                    value={pokemons.id}
-                    hidden
-                    readOnly
-                  />
-                  <button className="w-5 h-5">
-                    <img
-                      src={
-                        data[1].find(
-                          (o: { pokemon_id: number }) =>
-                            o.pokemon_id == pokemons.id
-                        )
-                          ? redHeart
-                          : heart
-                      }
-                      alt="like"
-                    />
-                  </button>
-                </Form>
+              {userIdData && (
+                <PokemonLikeButton data={likeData} id={pokemons.id} />
               )}
             </div>
           );

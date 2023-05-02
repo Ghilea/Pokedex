@@ -4,6 +4,8 @@ import { addLike, getLikes, getPokemons, deleteLike } from "~/api/crud";
 import Search from "~/components/search";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { getSession } from "~/api/services/session.server";
+import Paginate from "~/components/paginate";
+
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Sök pokémon" }];
 };
@@ -14,10 +16,11 @@ export default function Index() {
 
   return (
     <>
-      <h1 className="mb-16 text-5xl text-white">Pokémon</h1>
+      <h1 className="mb-16 text-5xl text-white font-pokemon">Pokémon</h1>
       <div className="w-full sm:max-w-[70%] 2xl:max-w-[40%] sm:max-h-[70%] h-full 2xl:max-h-[50%] flex justify-center items-center flex-col">
         <Search param={params} />
         <PokemonList data={data} />
+        <Paginate />
       </div>
     </>
   );

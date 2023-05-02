@@ -38,11 +38,22 @@ export const downloadPokemonFromAPI: any = async () => {
     });
 }
 
-export const getPokemons: any = async (search: string | number, sort: string = 'name', order: string = 'asc') => {
-    const url = `http://localhost:3004/pokemons?_sort=${sort}&_order=${order}`;
-    const urlSearch = `http://localhost:3004/pokemons/?_sort=${sort}&_order=${order}&${Number(search) ? `id=${search}` : `name_like=${search}`}`;
+export const getPokemons: any = async (search: string | number, sort: string = 'name', order: string = 'asc', page: number = 1) => {
+    const url = `http://localhost:3004/pokemons?_page=${page}&_sort=${sort}&_order=${order}`;
+    const urlSearch = `http://localhost:3004/pokemons?_page=${page}&_sort=${sort}&_order=${order}&${Number(search) ? `id=${search}` : `name_like=${search}`}`;
 
     return await fetch(search ? urlSearch : url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
+
+export const getPokemon: any = async (id: number) => {
+    const url = `http://localhost:3004/pokemons/${id}`;
+ 
+    return await fetch(url, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -87,6 +98,17 @@ export const deleteLike: any = async (id: any) => {
 
 export const getLikes: any = async (userId: number) => {
     const url = `http://localhost:3004/likes?user_id=${userId}`;
+
+    return fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
+
+export const getLike: any = async (userId: number, pokemonId: number) => {
+    const url = `http://localhost:3004/likes?user_id=${userId}&pokemon_id=${pokemonId}`;
 
     return fetch(url, {
         method: "GET",
