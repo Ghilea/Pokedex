@@ -7,6 +7,7 @@ interface Props {
 }
 
 const PokemonList = ({ data }: Props) => {
+
   return (
     <div className="flex flex-col w-full gap-2 text-3xl text-black">
       {data[0]?.map(
@@ -41,22 +42,29 @@ const PokemonList = ({ data }: Props) => {
                   alt={`${pokemons.name}`}
                 />
               </div>
-              <Form method="post">
-                <input name="pokemon_id" value={pokemons.id} hidden readOnly />
-                <button className="w-5 h-5">
-                  <img
-                    src={
-                      data[1].find(
-                        (o: { pokemon_id: number }) =>
-                          o.pokemon_id == pokemons.id
-                      )
-                        ? redHeart
-                        : heart
-                    }
-                    alt="like"
+              {data[2] && (
+                <Form method="post">
+                  <input
+                    name="pokemon_id"
+                    value={pokemons.id}
+                    hidden
+                    readOnly
                   />
-                </button>
-              </Form>
+                  <button className="w-5 h-5">
+                    <img
+                      src={
+                        data[1].find(
+                          (o: { pokemon_id: number }) =>
+                            o.pokemon_id == pokemons.id
+                        )
+                          ? redHeart
+                          : heart
+                      }
+                      alt="like"
+                    />
+                  </button>
+                </Form>
+              )}
             </div>
           );
         }

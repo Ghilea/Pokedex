@@ -1,9 +1,9 @@
-import { getSession, destroySession } from "~/sessions";
+import { getSession, destroySession } from "~/api/services/session.server";
 import { redirect } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
 
 interface ActionRequest {
-    request: Request;
+  request: Request;
 }
 export const action = async ({ request }: ActionRequest) => {
   const session = await getSession(request.headers.get("Cookie"));

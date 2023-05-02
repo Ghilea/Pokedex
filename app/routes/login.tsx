@@ -1,23 +1,22 @@
-import { V2_MetaFunction } from "@remix-run/node";
 import AuthForm from "~/features/auth/authFormLogin";
 import { authControllerLogin } from "~/features/auth/authController";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getSession, commitSession } from "~/sessions";
+import { getSession, commitSession } from "~/api/services/session.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Logga in" }];
 };
 
 export default function Login() {
-  const { currentUser, error } = useLoaderData<typeof loader>();
+  const { error } = useLoaderData<typeof loader>();
 
   return (
     <>
       <h1 className="mb-16 text-5xl text-white">Logga in</h1>
       <div className="flex flex-col items-center justify-center w-full h-full max-w-[40em]">
-        {error ? <div className="error">{error}</div> : null}
+        {error ? <div className="text-white error">{error}</div> : null}
         <AuthForm />
       </div>
     </>
