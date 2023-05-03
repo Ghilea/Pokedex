@@ -1,5 +1,5 @@
 export const createAccount = (data: any) => {
-    const url = "https://pokedex-4bgl.onrender.com/users";
+    const url = "http://217.210.173.199:3004/users";
 
     return fetch(url, {
         method: "POST",
@@ -11,7 +11,7 @@ export const createAccount = (data: any) => {
 }
 
 export const dateLoginToUserAccount = (userId: number) => {
-    const url = `https://pokedex-4bgl.onrender.com/users/${userId}`;
+    const url = `http://217.210.173.199:3004/users/${userId}`;
 
     return fetch(url, {
         method: "PATCH",
@@ -23,7 +23,7 @@ export const dateLoginToUserAccount = (userId: number) => {
 }
 
 export const getUsers = async () => {
-    const url = "https://pokedex-4bgl.onrender.com/users";
+    const url = "http://217.210.173.199:3004/users";
 
     const res = await fetch(url, {
         method: "GET",
@@ -36,7 +36,7 @@ export const getUsers = async () => {
 }
 
 export const getUser = async (userId: number) => {
-    const url = `https://pokedex-4bgl.onrender.com/users/${userId}`;
+    const url = `http://217.210.173.199:3004/users/${userId}`;
 
     const res = await fetch(url, {
         method: "GET",
@@ -49,7 +49,7 @@ export const getUser = async (userId: number) => {
 }
 
 export const ForgotPassword = (data: any) => {
-    const url = "https://pokedex-4bgl.onrender.com/users";
+    const url = "http://217.210.173.199:3004/users";
 
     return fetch(url, {
         method: "POST",
