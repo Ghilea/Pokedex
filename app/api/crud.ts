@@ -39,8 +39,8 @@ export const downloadPokemonFromAPI: any = async () => {
 }
 
 export const getPokemons: any = async (search: string | number, sort: string = 'name', order: string = 'asc', page: number = 1) => {
-    const url = `https://pokedex-server-sze8.onrender.com//pokemons?_page=${page}&_sort=${sort}&_order=${order}`;
-    const urlSearch = `https://pokedex-server-sze8.onrender.com//pokemons?_page=${page}&_sort=${sort}&_order=${order}&${Number(search) ? `id=${search}` : `name_like=${search}`}`;
+    const url = `https://pokedex-server-sze8.onrender.com/pokemons?_page=${page}&_sort=${sort}&_order=${order}`;
+    const urlSearch = `https://pokedex-server-sze8.onrender.com/pokemons?_page=${page}&_sort=${sort}&_order=${order}&${Number(search) ? `id=${search}` : `name_like=${search}`}`;
 
     return await fetch(search ? urlSearch : url, {
         method: "GET",
@@ -51,7 +51,7 @@ export const getPokemons: any = async (search: string | number, sort: string = '
 }
 
 export const getPokemon: any = async (id: number) => {
-    const url = `https://pokedex-server-sze8.onrender.com//pokemons/${id}`;
+    const url = `https://pokedex-server-sze8.onrender.com/pokemons/${id}`;
 
     return await fetch(url, {
         method: "GET",
@@ -62,7 +62,7 @@ export const getPokemon: any = async (id: number) => {
 }
 
 export const addPokemon: any = async (data: any) => {
-    const url = "https://pokedex-server-sze8.onrender.com//pokemons";
+    const url = "https://pokedex-server-sze8.onrender.com/pokemons";
 
     return fetch(url, {
         method: "POST",
@@ -74,7 +74,7 @@ export const addPokemon: any = async (data: any) => {
 }
 
 export const addLike: any = async (pokemon_id: any, userId: number) => {
-    const url = "https://pokedex-server-sze8.onrender.com//likes";
+    const url = "https://pokedex-server-sze8.onrender.com/likes";
 
     return fetch(url, {
         method: "POST",
@@ -86,7 +86,7 @@ export const addLike: any = async (pokemon_id: any, userId: number) => {
 }
 
 export const deleteLike: any = async (id: any) => {
-    const url = `https://pokedex-server-sze8.onrender.com//likes/${id}`;
+    const url = `https://pokedex-server-sze8.onrender.com/likes/${id}`;
 
     return fetch(url, {
         method: "DELETE",
@@ -97,7 +97,7 @@ export const deleteLike: any = async (id: any) => {
 }
 
 export const getLikes: any = async (userId: number) => {
-    const url = `https://pokedex-server-sze8.onrender.com//likes?user_id=${userId}`;
+    const url = `https://pokedex-server-sze8.onrender.com/likes?user_id=${userId}`;
 
     return fetch(url, {
         method: "GET",
@@ -108,7 +108,7 @@ export const getLikes: any = async (userId: number) => {
 }
 
 export const getAllLikes: any = async () => {
-    const url = `https://pokedex-server-sze8.onrender.com//likes`;
+    const url = `https://pokedex-server-sze8.onrender.com/likes`;
 
     return fetch(url, {
         method: "GET",
@@ -119,7 +119,7 @@ export const getAllLikes: any = async () => {
 }
 
 export const getNotification: any = async () => {
-    const url = `https://pokedex-server-sze8.onrender.com//notification`;
+    const url = `https://pokedex-server-sze8.onrender.com/notification`;
 
     return fetch(url, {
         method: "GET",
@@ -130,7 +130,7 @@ export const getNotification: any = async () => {
 }
 
 export const deleteNotification: any = async (userId: number) => {
-    const url = `https://pokedex-server-sze8.onrender.com//notification/${userId}`;
+    const url = `https://pokedex-server-sze8.onrender.com/notification/${userId}`;
 
     return fetch(url, {
         method: "PATCH",
@@ -142,7 +142,7 @@ export const deleteNotification: any = async (userId: number) => {
 }
 
 export const updateNotification: any = async (userId: number, data: Array<any>) => {
-    const url = `https://pokedex-server-sze8.onrender.com//notification/${userId}`;
+    const url = `https://pokedex-server-sze8.onrender.com/notification/${userId}`;
 
     return fetch(url, {
         method: "PATCH",
@@ -154,7 +154,7 @@ export const updateNotification: any = async (userId: number, data: Array<any>) 
 }
 
 export const addNotification: any = async (userId: number, likes: object) => {
-    const url = `https://pokedex-server-sze8.onrender.com//notification`;
+    const url = `https://pokedex-server-sze8.onrender.com/notification`;
 
     return fetch(url, {
         method: "POST",
@@ -166,7 +166,7 @@ export const addNotification: any = async (userId: number, likes: object) => {
 }
 
 export const getLike: any = async (userId: number, pokemonId: number) => {
-    const url = `https://pokedex-server-sze8.onrender.com//likes?user_id=${userId}&pokemon_id=${pokemonId}`;
+    const url = `https://pokedex-server-sze8.onrender.com/likes?user_id=${userId}&pokemon_id=${pokemonId}`;
 
     return fetch(url, {
         method: "GET",
