@@ -1,7 +1,7 @@
 # Welcome to Remix!
 
 - [Remix Docs](https://remix.run/docs)
-
+# \"npm run server\"
 ## Development
 
 From your terminal:

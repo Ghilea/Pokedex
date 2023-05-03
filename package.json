@@ -3,7 +3,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
-    "dev": "concurrently \"npm run server\" \"remix dev\"",
+    "dev": "concurrently \"remix dev\"",
     "start": "remix-serve build",
     "typecheck": "tsc",
     "server": "json-server --watch db.json --port 3004"
