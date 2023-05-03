@@ -30,7 +30,7 @@ const AuthForm = () => {
           placeholder="Repetera Lösenord"
           label="Repetera Lösenord"
           type="password"
-          name="repeatPassword"
+          name="confirmPassword"
           required
         />
       </div>

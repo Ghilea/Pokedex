@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import notifcationImage from "public/assets/icons/notification.svg";
-import { getNotification } from "~/api/crud";
+import { getNotification, deleteNotification } from "~/api/crud";
+import addOrUpdatePokemonLikes from "~/components/pokemonLikes";
 
 interface Props {
-  session: { id: number; username: string };
+  session: any;
 }
 
 const Notification = ({ session }: Props) => {
@@ -12,27 +13,39 @@ const Notification = ({ session }: Props) => {
   const [isExpanded, setIsExpanded] = useState<Boolean>(false);
 
   useEffect(() => {
-    getNotification()
-      .then((res: { json: () => any }) => res.json())
-      .then((data: any[]) => {
-        const filteredData = data.filter(
-          (item: { date: string | number | Date; user_id: number[] }) =>
-            new Date(item.date) > new Date() &&
-            !item.user_id.includes(session.id)
-        );
+    const time = setInterval(async () => {
+      await addOrUpdatePokemonLikes(session.id);
 
-        filteredData.length > 0 && setNotification(filteredData.length);
-        setNotificationList(filteredData);
-      });
-  }, []);
+      if (session) {
+        getNotification()
+          .then((res: { json: () => any }) => res.json())
+          .then((data: any) => {
+            const getUserLikes = data.filter(
+              (item: any) => item.userId === session.id
+            );
+
+            getUserLikes?.map((item: { likes: Array<any> }) => {
+              return Promise.all([
+                setNotification(item.likes.length),
+                setNotificationList(item.likes),
+              ]);
+            });
+          });
+      }
+    }, 10000);
+
+    return () => clearInterval(time);
+  }, [session]);
 
   useEffect(() => {
     if (isExpanded && notification > 0) {
       setNotification(0);
-    }
-  }, [isExpanded, notification]);
 
-  console.log(notificationList);
+      if (session) {
+        deleteNotification(session.id);
+      }
+    }
+  }, [isExpanded, notification, session]);
 
   return (
     <>
@@ -44,9 +57,19 @@ const Notification = ({ session }: Props) => {
       </div>
       {isExpanded && (
         <div className="absolute flex items-center justify-start p-5 bg-white rounded-md w-[400px] top-10 right-5">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="absolute top-1 right-3"
+          >
+            X
+          </button>
           <ul>
-            {notificationList.map((item, index) => {
-              return <li key={`notification` + index}>En annan användare gillade samma pokémon som dig.</li>;
+            {notificationList?.map((item: any, index) => {
+              return (
+                <li key={`notification` + index}>
+                  Användare ({item.user_id}) gillade pokémon ({item.pokemon_id})
+                </li>
+              );
             })}
           </ul>
         </div>

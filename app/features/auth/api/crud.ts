@@ -35,6 +35,19 @@ export const getUsers = async () => {
     return await res.json();
 }
 
+export const getUser = async (userId: number) => {
+    const url = `http://localhost:3004/users/${userId}`;
+
+    const res = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    return await res.json();
+}
+
 export const ForgotPassword = (data: any) => {
     const url = "http://localhost:3004/users";
 

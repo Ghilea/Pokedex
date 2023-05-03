@@ -78,7 +78,7 @@ export const addLike: any = async (pokemon_id: any, userId: number) => {
 
     return fetch(url, {
         method: "POST",
-        body: JSON.stringify({ user_id: userId, pokemon_id: pokemon_id, date: new Date() }),
+        body: JSON.stringify({ user_id: userId, pokemon_id: pokemon_id, added: new Date() }),
         headers: {
             "Content-Type": "application/json",
         },
@@ -107,11 +107,58 @@ export const getLikes: any = async (userId: number) => {
     });
 }
 
-export const getNotification: any = async () => {
+export const getAllLikes: any = async () => {
     const url = `http://localhost:3004/likes`;
 
     return fetch(url, {
         method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
+
+export const getNotification: any = async () => {
+    const url = `http://localhost:3004/notification`;
+
+    return fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
+
+export const deleteNotification: any = async (userId: number) => {
+    const url = `http://localhost:3004/notification/${userId}`;
+
+    return fetch(url, {
+        method: "PATCH",
+        body: JSON.stringify({ likes: [] }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
+
+export const updateNotification: any = async (userId: number, data: Array<any>) => {
+    const url = `http://localhost:3004/notification/${userId}`;
+
+    return fetch(url, {
+        method: "PATCH",
+        body: JSON.stringify({ likes: data }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
+
+export const addNotification: any = async (userId: number, likes: object) => {
+    const url = `http://localhost:3004/notification`;
+
+    return fetch(url, {
+        method: "POST",
+        body: JSON.stringify({ userId: userId, likes, added: new Date()}),
         headers: {
             "Content-Type": "application/json",
         },

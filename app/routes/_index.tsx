@@ -37,9 +37,9 @@ export async function loader({ request }: LoaderArgs) {
   const order = param.get("order");
 
   const pokemons = await getPokemons(search, sort, order);
-  const likes = await getLikes(userId.id);
+  const likes = await getLikes(userId?.id);
 
-  return Promise.all([pokemons.json(), likes.json(), userId.id]);
+  return Promise.all([pokemons.json(), likes.json(), userId?.id]);
 }
 
 export async function action({ request }: ActionArgs) {
@@ -47,13 +47,13 @@ export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   const userId: any = session.get("userId");
-  const isLiked = await getLikes(userId.id).then(
+  const isLiked = await getLikes(userId?.id).then(
     (res: { json: () => Promise<any> }) => res.json().then((data) => data)
   );
 
   const deleteIt = isLiked.find(
     (o: { id: number; pokemon_id: string; user_id: number }) => {
-      if (o.pokemon_id == data.pokemon_id && o.user_id == userId.id) {
+      if (o.pokemon_id == data.pokemon_id && o.user_id == userId?.id) {
         return o.id;
       }
     }
@@ -61,5 +61,5 @@ export async function action({ request }: ActionArgs) {
 
   return deleteIt !== undefined
     ? deleteLike(deleteIt.id)
-    : addLike(data.pokemon_id, userId.id);
+    : addLike(data.pokemon_id, userId?.id);
 }

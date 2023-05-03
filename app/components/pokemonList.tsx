@@ -28,7 +28,7 @@ const PokemonList = ({ data }: Props) => {
             <div
               className={`flex items-center justify-start h-24 gap-3 px-5 py-3 overflow-hidden capitalize rounded-md relative shadow-lg sm:duration-300 ${colorSelection(
                 pokemons.type
-              )}`}
+              )} hover:opacity-50`}
               key={pokemons.name + index}
             >
               <span className="flex items-center justify-center w-5 h-5 p-5 text-lg rounded-full shadow-lg bg-gradient-to-r from-slate-100 to-slate-300">
