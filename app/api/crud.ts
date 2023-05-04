@@ -1,5 +1,3 @@
-const server = 'https://json-server-six-xi.vercel.app/'
-
 export const downloadPokemonFromAPI: any = async () => {
     const url = "https://pokeapi.co/api/v2/pokemon/?limit=151";
 
@@ -41,8 +39,8 @@ export const downloadPokemonFromAPI: any = async () => {
 }
 
 export const getPokemons: any = async (search: string | number, sort: string = 'name', order: string = 'asc', page: number = 1) => {
-    const url = `${server}/pokemons?_page=${page}&_sort=${sort}&_order=${order}`;
-    const urlSearch = `${server}/pokemons?_page=${page}&_sort=${sort}&_order=${order}&${Number(search) ? `id=${search}` : `name_like=${search}`}`;
+    const url = `https://json-server-six-xi.vercel.app/pokemons?_page=${page}&_sort=${sort}&_order=${order}`;
+    const urlSearch = `https://json-server-six-xi.vercel.app/pokemons?_page=${page}&_sort=${sort}&_order=${order}&${Number(search) ? `id=${search}` : `name_like=${search}`}`;
 
     return await fetch(search ? urlSearch : url, {
         method: "GET",
@@ -53,7 +51,7 @@ export const getPokemons: any = async (search: string | number, sort: string = '
 }
 
 export const getPokemon: any = async (id: number) => {
-    const url = `${server}/pokemons/${id}`;
+    const url = `https://json-server-six-xi.vercel.app/pokemons/${id}`;
 
     return await fetch(url, {
         method: "GET",
@@ -64,7 +62,7 @@ export const getPokemon: any = async (id: number) => {
 }
 
 export const addPokemon: any = async (data: any) => {
-    const url = `${server}/pokemons`;
+    const url = `https://json-server-six-xi.vercel.app/pokemons`;
 
     return fetch(url, {
         method: "POST",
@@ -76,7 +74,7 @@ export const addPokemon: any = async (data: any) => {
 }
 
 export const addLike: any = async (pokemon_id: any, userId: number) => {
-    const url = `${server}/likes`;
+    const url = `https://json-server-six-xi.vercel.app/likes`;
 
     return fetch(url, {
         method: "POST",
@@ -88,7 +86,7 @@ export const addLike: any = async (pokemon_id: any, userId: number) => {
 }
 
 export const deleteLike: any = async (id: any) => {
-    const url = `${server}/likes/${id}`;
+    const url = `https://json-server-six-xi.vercel.app/likes/${id}`;
 
     return fetch(url, {
         method: "DELETE",
@@ -99,7 +97,7 @@ export const deleteLike: any = async (id: any) => {
 }
 
 export const getLikes: any = async (userId: number) => {
-    const url = `${server}/likes?user_id=${userId}`;
+    const url = `https://json-server-six-xi.vercel.app/likes?user_id=${userId}`;
 
     return fetch(url, {
         method: "GET",
@@ -110,7 +108,7 @@ export const getLikes: any = async (userId: number) => {
 }
 
 export const getAllLikes: any = async () => {
-    const url = `${server}/likes`;
+    const url = `https://json-server-six-xi.vercel.app/likes`;
 
     return fetch(url, {
         method: "GET",
@@ -121,7 +119,7 @@ export const getAllLikes: any = async () => {
 }
 
 export const getNotification: any = async () => {
-    const url = `${server}/notification`;
+    const url = `https://json-server-six-xi.vercel.app/notification`;
 
     return fetch(url, {
         method: "GET",
@@ -132,7 +130,7 @@ export const getNotification: any = async () => {
 }
 
 export const deleteNotification: any = async (userId: number) => {
-    const url = `${server}/notification/${userId}`;
+    const url = `https://json-server-six-xi.vercel.app/notification/${userId}`;
 
     return fetch(url, {
         method: "PATCH",
@@ -144,7 +142,7 @@ export const deleteNotification: any = async (userId: number) => {
 }
 
 export const updateNotification: any = async (userId: number, data: Array<any>) => {
-    const url = `${server}/notification/${userId}`;
+    const url = `https://json-server-six-xi.vercel.app/notification/${userId}`;
 
     return fetch(url, {
         method: "PATCH",
@@ -156,7 +154,7 @@ export const updateNotification: any = async (userId: number, data: Array<any>) 
 }
 
 export const addNotification: any = async (userId: number, likes: object) => {
-    const url = `${server}/notification`;
+    const url = `https://json-server-six-xi.vercel.app/notification`;
 
     return fetch(url, {
         method: "POST",
@@ -168,7 +166,7 @@ export const addNotification: any = async (userId: number, likes: object) => {
 }
 
 export const getLike: any = async (userId: number, pokemonId: number) => {
-    const url = `${server}/likes?user_id=${userId}&pokemon_id=${pokemonId}`;
+    const url = `https://json-server-six-xi.vercel.app/likes?user_id=${userId}&pokemon_id=${pokemonId}`;
 
     return fetch(url, {
         method: "GET",
