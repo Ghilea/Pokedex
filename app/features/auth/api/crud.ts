@@ -1,5 +1,7 @@
+const server = 'https://json-server-six-xi.vercel.app/'
+
 export const createAccount = (data: any) => {
-    const url = "https://pokedex-server-sze8.onrender.com/users";
+    const url = `${server}/users`;
 
     return fetch(url, {
         method: "POST",
@@ -11,7 +13,7 @@ export const createAccount = (data: any) => {
 }
 
 export const dateLoginToUserAccount = (userId: number) => {
-    const url = `https://pokedex-server-sze8.onrender.com/users/${userId}`;
+    const url = `${server}/users/${userId}`;
 
     return fetch(url, {
         method: "PATCH",
@@ -23,7 +25,7 @@ export const dateLoginToUserAccount = (userId: number) => {
 }
 
 export const getUsers = async () => {
-    const url = "https://pokedex-server-sze8.onrender.com/users";
+    const url = `${server}/users`;
 
     const res = await fetch(url, {
         method: "GET",
@@ -36,7 +38,7 @@ export const getUsers = async () => {
 }
 
 export const getUser = async (userId: number) => {
-    const url = `https://pokedex-server-sze8.onrender.com/users/${userId}`;
+    const url = `${server}/users/${userId}`;
 
     const res = await fetch(url, {
         method: "GET",
@@ -49,7 +51,7 @@ export const getUser = async (userId: number) => {
 }
 
 export const ForgotPassword = (data: any) => {
-    const url = "https://pokedex-server-sze8.onrender.com/users";
+    const url = `${server}/users`;
 
     return fetch(url, {
         method: "POST",
