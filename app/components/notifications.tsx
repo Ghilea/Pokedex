@@ -17,7 +17,7 @@ const Notification = ({ session }: Props) => {
       await addOrUpdatePokemonLikes(session.id);
 
       if (session) {
-        getNotification()
+        getNotification(session.id)
           .then((res: { json: () => any }) => res.json())
           .then((data: any) => {
             const getUserLikes = data.filter(
