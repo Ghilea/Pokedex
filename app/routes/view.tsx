@@ -72,5 +72,5 @@ export async function loader({ request }: LoaderArgs) {
   const pokemon = await getPokemon(pokemonId);
   const like = await getLike(userId?.id, pokemonId);
 
-  return Promise.all([pokemon.json(), like.json(), userId?.id]);
+  return Promise.all([pokemon, like, userId?.id]);
 }

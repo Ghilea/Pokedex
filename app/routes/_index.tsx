@@ -18,9 +18,13 @@ export default function Index() {
     <>
       <h1 className="mb-16 text-5xl text-white font-pokemon">Pokémon</h1>
       <div className="w-full sm:max-w-[70%] 2xl:max-w-[40%] sm:max-h-[70%] h-full 2xl:max-h-[50%] flex justify-center items-center flex-col">
-        <Search param={params} />
-        <PokemonList data={data} />
-        <Paginate />
+        {data && (
+          <>
+            <Search param={params} />
+            <PokemonList data={data} />
+            <Paginate />
+          </>
+        )}
       </div>
     </>
   );
@@ -39,7 +43,7 @@ export async function loader({ request }: LoaderArgs) {
   const pokemons = await getPokemons(search, sort, order);
   const likes = await getLikes(userId?.id);
 
-  return Promise.all([pokemons.json(), likes.json(), userId?.id]);
+  return Promise.all([pokemons, likes, userId?.id]);
 }
 
 export async function action({ request }: ActionArgs) {

@@ -3,67 +3,35 @@ import axios from "axios";
 export const downloadPokemonFromAPI: any = async () => {
     const url = "https://pokeapi.co/api/v2/pokemon/?limit=5";
 
-    const pokemons = await axios.get(url).then(res => {
+    return await fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            let results = data.results;
 
-        let promisesArray = res.data.results.map((result: { url: string }) => {
-            return axios.get(result.url).then(response => response);
+            let promisesArray = results.map((result: { url: string }) => {
+                return fetch(result.url).then(response => response.json());
+            });
+
+            return Promise.all(promisesArray);
+        }).then((data) => {
+
+            data.map((items: any, index: number) => {
+
+                const abilities = items.abilities.map((item: any) => item.ability.name);
+                const stats = items.stats.map((item: any) => { return { [item.stat.name]: item.base_stat } });
+
+                addPokemon({
+                    id: index + 1,
+                    name: items.name,
+                    image: items.sprites.other.dream_world.front_default,
+                    weight: items.weight,
+                    abilities: abilities,
+                    stats: stats,
+                    type: items.types[0].type.name
+                })
+
+            })
         });
-
-        return Promise.all(promisesArray);
-    });
-
-    pokemons.map((items: any) => {
-
-        const abilities = items.abilities.map((item: any) => item.ability.name);
-        const stats = items.stats.map((item: any) => { return { [item.stat.name]: item.base_stat } });
-
-        /*  return addPokemon({
-             id: items.id,
-             name: items.name,
-             image: items.sprites.other.dream_world.front_default,
-             weight: items.weight,
-             height: items.height,
-             abilities: abilities,
-             stats: stats,
-             type: items.types[0].type.name
-         }) */
-    });
-
-    /* return getPokemons().then((response: Response) => response.json()).then(async (data: any) => {
-        if (data.length === 0) {
-            return await fetch(url)
-                .then((response) => response.json())
-                .then((data) => {
-                    let results = data.results;
-
-                    let promisesArray = results.map((result: { url: string }) => {
-                        return fetch(result.url).then(response => response.json());
-                    });
-
-                    return Promise.all(promisesArray);
-                }).then((data) => {
-
-                    data.map((items: any, index: number) => {
-
-                        const abilities = items.abilities.map((item: any) => item.ability.name);
-                        const stats = items.stats.map((item: any) => { return { [item.stat.name]: item.base_stat } });
-
-                        addPokemon({
-                            id: index + 1,
-                            name: items.name,
-                            image: items.sprites.other.dream_world.front_default,
-                            weight: items.weight,
-                            abilities: abilities,
-                            stats: stats,
-                            type: items.types[0].type.name
-                        })
-
-                    })
-
-
-                });
-        }
-    }); */
 }
 
 export const getPokemons: any = async (search: string | number = "", sort: string = 'name', order: string = 'asc', page: number = 1) => {
@@ -80,7 +48,7 @@ export const getPokemon: any = async (id: number) => {
 }
 
 export const addPokemon: any = async (data: any) => {
-    const url = `https://json-server-six-xi.vercel.app/pokemons`;
+    const url = `localhost:3004/addPokemons`;
 
     return axios.post(url, data);
 }
