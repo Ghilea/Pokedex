@@ -1,7 +1,35 @@
-export const downloadPokemonFromAPI: any = async () => {
-    const url = "https://pokeapi.co/api/v2/pokemon/?limit=151";
+import axios from "axios";
 
-    return getPokemons().then((response: Response) => response.json()).then(async (data: any) => {
+export const downloadPokemonFromAPI: any = async () => {
+    const url = "https://pokeapi.co/api/v2/pokemon/?limit=5";
+
+    const pokemons = await axios.get(url).then(res => {
+
+        let promisesArray = res.data.results.map((result: { url: string }) => {
+            return axios.get(result.url).then(response => response);
+        });
+
+        return Promise.all(promisesArray);
+    });
+
+    pokemons.map((items: any) => {
+
+        const abilities = items.abilities.map((item: any) => item.ability.name);
+        const stats = items.stats.map((item: any) => { return { [item.stat.name]: item.base_stat } });
+
+        /*  return addPokemon({
+             id: items.id,
+             name: items.name,
+             image: items.sprites.other.dream_world.front_default,
+             weight: items.weight,
+             height: items.height,
+             abilities: abilities,
+             stats: stats,
+             type: items.types[0].type.name
+         }) */
+    });
+
+    /* return getPokemons().then((response: Response) => response.json()).then(async (data: any) => {
         if (data.length === 0) {
             return await fetch(url)
                 .then((response) => response.json())
@@ -35,143 +63,78 @@ export const downloadPokemonFromAPI: any = async () => {
 
                 });
         }
-    });
+    }); */
 }
 
-export const getPokemons: any = async (search: string | number, sort: string = 'name', order: string = 'asc', page: number = 1) => {
+export const getPokemons: any = async (search: string | number = "", sort: string = 'name', order: string = 'asc', page: number = 1) => {
     const url = `https://json-server-six-xi.vercel.app/pokemons?_page=${page}&_sort=${sort}&_order=${order}`;
     const urlSearch = `https://json-server-six-xi.vercel.app/pokemons?_page=${page}&_sort=${sort}&_order=${order}&${Number(search) ? `id=${search}` : `name_like=${search}`}`;
 
-    return await fetch(search ? urlSearch : url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    return await axios.get(search ? urlSearch : url).then(res => res.data);
 }
 
 export const getPokemon: any = async (id: number) => {
     const url = `https://json-server-six-xi.vercel.app/pokemons/${id}`;
 
-    return await fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    return await axios.get(url).then(res => res.data);
 }
 
 export const addPokemon: any = async (data: any) => {
     const url = `https://json-server-six-xi.vercel.app/pokemons`;
 
-    return fetch(url, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    return axios.post(url, data);
 }
 
 export const addLike: any = async (pokemon_id: any, userId: number) => {
     const url = `https://pokedexeu-l0yx.onrender.com/likes`;
 
-    return fetch(url, {
-        method: "POST",
-        body: JSON.stringify({ user_id: userId, pokemon_id: pokemon_id, added: new Date() }),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    return axios.post(url, { user_id: userId, pokemon_id: pokemon_id, added: new Date() });
 }
 
 export const deleteLike: any = async (id: any) => {
     const url = `https://pokedexeu-l0yx.onrender.com/likes/${id}`;
 
-    return fetch(url, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-}
-
-export const getLikes: any = async (userId: number) => {
-    const url = `https://pokedexeu-l0yx.onrender.com/likes?user_id=${userId}`;
-
-    return fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-}
-
-export const getAllLikes: any = async () => {
-    const url = `https://pokedexeu-l0yx.onrender.com/likes`;
-
-    return fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-}
-
-export const getNotification: any = async (userId: number) => {
-    const url = `https://pokedexeu-l0yx.onrender.com/notification?userId=${userId}`;
-
-    return fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-}
-
-export const deleteNotification: any = async (userId: number) => {
-    const url = `https://pokedexeu-l0yx.onrender.com/notification/${userId}`;
-
-    return fetch(url, {
-        method: "PATCH",
-        body: JSON.stringify({ likes: [] }),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-}
-
-export const updateNotification: any = async (userId: number, data: Array<any>) => {
-    const url = `https://pokedexeu-l0yx.onrender.com/notification/${userId}`;
-
-    return fetch(url, {
-        method: "PATCH",
-        body: JSON.stringify({ likes: data }),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-}
-
-export const addNotification: any = async (userId: number, likes: object) => {
-    const url = `https://pokedexeu-l0yx.onrender.com/notification`;
-
-    return fetch(url, {
-        method: "POST",
-        body: JSON.stringify({ userId: userId, likes, added: new Date() }),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    return axios.delete(url);
 }
 
 export const getLike: any = async (userId: number, pokemonId: number) => {
     const url = `https://pokedexeu-l0yx.onrender.com/likes?user_id=${userId}&pokemon_id=${pokemonId}`;
 
-    return fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    return await axios.get(url).then(res => res.data);
+}
+
+export const getLikes: any = async (userId: number) => {
+    const url = `https://pokedexeu-l0yx.onrender.com/likes?user_id=${userId}`;
+
+    return await axios.get(url).then(res => res.data);
+}
+
+export const getAllLikes: any = async () => {
+    const url = `https://pokedexeu-l0yx.onrender.com/likes`;
+
+    return await axios.get(url).then(res => res.data);
+}
+
+export const getNotification: any = async (userId: number) => {
+    const url = `https://pokedexeu-l0yx.onrender.com/notification?userId=${userId}`;
+
+    return await axios.get(url).then(res => res.data);
+}
+
+export const deleteNotification: any = async (userId: number) => {
+    const url = `https://pokedexeu-l0yx.onrender.com/notification/${userId}`;
+
+    return axios.patch(url, { likes: [] });
+}
+
+export const updateNotification: any = async (userId: number, data: Array<any>) => {
+    const url = `https://pokedexeu-l0yx.onrender.com/notification/${userId}`;
+
+    return axios.patch(url, { likes: data });
+}
+
+export const addNotification: any = async (userId: number, likes: object) => {
+    const url = `https://pokedexeu-l0yx.onrender.com/notification`;
+
+    return axios.post(url, { userId: userId, likes, added: new Date() });
 }
