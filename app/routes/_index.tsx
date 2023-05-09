@@ -13,7 +13,7 @@ export const meta: V2_MetaFunction = () => {
 export default function Index() {
   const data = useLoaderData();
   const [params] = useSearchParams();
-
+  
   return (
     <>
       <h1 className="mb-16 text-5xl text-white font-pokemon">Pokémon</h1>
@@ -51,7 +51,7 @@ export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   const userId: any = session.get("userId");
-  const isLiked = await getLikes(userId?.id).then(
+  /* const isLiked = await getLikes(userId?.id).then(
     (res: { json: () => Promise<any> }) => res.json().then((data) => data)
   );
 
@@ -65,5 +65,5 @@ export async function action({ request }: ActionArgs) {
 
   return deleteIt !== undefined
     ? deleteLike(deleteIt.id)
-    : addLike(data.pokemon_id, userId?.id);
+    : addLike(data.pokemon_id, userId?.id); */
 }

@@ -7,7 +7,6 @@ interface Props {
 }
 
 const PokemonList = ({ data }: Props) => {
-  
   const pokemonData = data[0];
   const likeData = data[1];
   const userIdData = data[2];

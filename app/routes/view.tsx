@@ -1,6 +1,6 @@
 import type { V2_MetaFunction, LoaderArgs } from "@remix-run/node";
 import { getSession } from "~/api/services/session.server";
-import { getPokemon, getLike } from "~/api/crud";
+import { getPokemon, getLikes } from "~/api/crud";
 import { useLoaderData } from "@remix-run/react";
 import { colorSelection } from "~/utiles/color-selection";
 import Tag from "~/components/tag";
@@ -69,8 +69,8 @@ export async function loader({ request }: LoaderArgs) {
   const param = new URLSearchParams(url.search);
   const pokemonId = param.get("id");
 
-  const pokemon = await getPokemon(pokemonId);
-  const like = await getLike(userId?.id, pokemonId);
+  const pokemon = await getPokemon(pokemonId)
+  const like = await getLikes(userId?.id, pokemonId);
 
   return Promise.all([pokemon, like, userId?.id]);
 }
