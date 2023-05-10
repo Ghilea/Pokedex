@@ -3,8 +3,8 @@ import { authControllerLogin } from "~/features/auth/authController";
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getSession, commitSession } from "~/api/services/session.server";
-import { updateLoginDate } from "~/features/auth/api/crud";
+import { getSession, commitSession } from "~/services/session.server";
+//import { updateLoginDate } from "~/features/auth/api/crud";
 import addOrUpdatePokemonLikes from "~/components/pokemonLikes";
 
 export const meta: V2_MetaFunction = () => {

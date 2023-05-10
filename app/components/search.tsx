@@ -1,47 +1,40 @@
 import InputField from "./forms/inputField";
 import Button from "~/components/button";
 import { Form } from "@remix-run/react";
-import { useSubmit } from "@remix-run/react";
 import { useState } from "react";
 
 interface Props {
-  param: any
- }
+  defaultValue: any;
+}
 
-const Search = ({ param }: Props) => {
+const Search = ({ defaultValue }: Props) => {
   const [sort, setSort] = useState<string>("id");
   const [order, setOrder] = useState<boolean>(true);
-  const submit = useSubmit();
-  
+
+
   const handleClickId = () => {
-    
     if (sort === "id" && order) {
       setOrder(false);
-     } else {
+    } else {
       setOrder(true);
     }
 
     setSort("id");
-    
-  }
-  
-  const handleClickName = () => {
+  };
 
+  const handleClickName = () => {
     if (sort === "name" && order) {
       setOrder(false);
     } else {
       setOrder(true);
     }
-    
+
     setSort("name");
   };
-  
-  const handleOnChange = (e: any, sort: string, order: boolean) => {
-    submit({ search: e.target.value, sort: sort, order: order ? 'asc' : 'desc'}, { method: "GET" });
-  };
-  
+
   return (
     <Form
+      method="POST"
       className="flex flex-col items-center justify-start w-full gap-3 mb-3"
       id="search-form"
     >
@@ -50,8 +43,7 @@ const Search = ({ param }: Props) => {
         type="search"
         name="search"
         placeholder="Gör din sökning..."
-        defaultValue={param.get("search")}
-        onChange={(e: any) => handleOnChange(e, sort, order)}
+        defaultValue={defaultValue}
       />
 
       <input name="sort" defaultValue={sort} hidden />

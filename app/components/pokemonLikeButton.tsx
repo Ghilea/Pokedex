@@ -15,7 +15,7 @@ const PokemonLikeButton = ({ data, id }: Props) => {
       <button className="w-5 h-5">
         <img
           src={
-            data.find((o: { pokemon_id: number }) => o.pokemon_id == id)
+            data && data?.find((o: { pokemon_id: number }) => o.pokemon_id == id)
               ? redHeart
               : heart
           }

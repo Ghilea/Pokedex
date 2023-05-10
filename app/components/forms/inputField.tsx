@@ -60,6 +60,7 @@ const InputField = ({
             value={value}
             defaultValue={defaultValue}
             onChange={onChange}
+            autoComplete="off"
             {...restProps}
           />
         </div>

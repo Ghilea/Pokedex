@@ -16,7 +16,8 @@
     "react-dom": "^18.2.0",
     "remix": "^1.16.0",
     "remix-auth": "^3.4.0",
-    "axios": "1.4.0"
+    "axios": "1.4.0",
+    "moment": "^2.29.4"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.16.0",

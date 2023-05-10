@@ -11,9 +11,8 @@ import appStyles from "./styles/app.css";
 import cssReset from "./styles/components/reset.css";
 import cssFloating from "./styles/components/floating.css";
 import Navigation from "./features/navigation";
-import { downloadPokemonFromAPI } from "~/api/crud";
 import type { LoaderArgs } from "@remix-run/node";
-import { getSession } from "./api/services/session.server";
+import { getSession } from "./services/session.server";
 import BackgroundAnimation from "./components/backgroundAnimation";
 
 export default function App() {
@@ -44,8 +43,6 @@ export default function App() {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  downloadPokemonFromAPI();
-
   const session = await getSession(request.headers.get("Cookie"));
   return { user: session.get("userId") };
 }

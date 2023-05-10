@@ -3,7 +3,7 @@ import { redirect, json } from "@remix-run/node";
 import AuthForm from "~/features/auth/authFormCreate";
 import { authControllerCreate } from "~/features/auth/authController";
 import { useLoaderData } from "@remix-run/react";
-import { getSession, commitSession } from "~/api/services/session.server";
+import { getSession, commitSession } from "~/services/session.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Skapa konto" }];
@@ -22,7 +22,6 @@ export default function CreateAccount() {
   );
 }
 
-
 export async function action({ request }: ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
@@ -38,7 +37,7 @@ export async function action({ request }: ActionArgs) {
       },
     });
   }
-  
+
   return redirect("/login");
 }
 

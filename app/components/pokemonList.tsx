@@ -3,17 +3,16 @@ import { colorSelection } from "~/utiles/color-selection";
 import PokemonLikeButton from "./pokemonLikeButton";
 
 interface Props {
-  data: any;
+  pokemonList: any;
+  pokemonLikes: any;
+  userId: any;
 }
 
-const PokemonList = ({ data }: Props) => {
-  const pokemonData = data[0];
-  const likeData = data[1];
-  const userIdData = data[2];
+const PokemonList = ({ pokemonList, pokemonLikes, userId }: Props) => {
 
   return (
     <div className="flex flex-col w-full gap-2 text-3xl text-black">
-      {pokemonData?.map(
+      {pokemonList?.map(
         (
           pokemons: {
             id: number;
@@ -35,7 +34,7 @@ const PokemonList = ({ data }: Props) => {
               </span>
 
               <h2 className="w-full ml-3 text-white">
-                <Link to={`/view?id=${pokemons.id}`}>{pokemons.name}</Link>
+                <Link to={`/view?pokemonId=${pokemons.id}`}>{pokemons.name}</Link>
               </h2>
 
               <div>
@@ -45,8 +44,8 @@ const PokemonList = ({ data }: Props) => {
                   alt={pokemons.name}
                 />
               </div>
-              {userIdData && (
-                <PokemonLikeButton data={likeData} id={pokemons.id} />
+              {userId && (
+                <PokemonLikeButton data={pokemonLikes} id={pokemons.id} />
               )}
             </div>
           );

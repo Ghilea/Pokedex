@@ -1,4 +1,5 @@
 import { getUsers, createAccount } from "~/features/auth/api/crud";
+import moment from "moment";
 
 export const authControllerLogin = async (data: any) => {
     const users = await getUsers();
@@ -22,7 +23,7 @@ export const authControllerCreate = async (data: any) => {
 
     switch (true) {
         case allGood:
-            return await createAccount({ username: data.username, email: data.email, password: data.password, lastLogin: new Date() });
+            return await createAccount({ username: data.username, email: data.email, password: data.password, lastLogin: moment().format('YYYY-MM-DD HH:mm:ss') });
         default:
             return null;
     }

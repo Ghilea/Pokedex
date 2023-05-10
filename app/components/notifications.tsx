@@ -17,20 +17,14 @@ const Notification = ({ session }: Props) => {
       await addOrUpdatePokemonLikes(session.id);
 
       if (session) {
-        getNotification(session.id)
-          .then((res: { json: () => any }) => res.json())
-          .then((data: any) => {
-            const getUserLikes = data.filter(
-              (item: any) => item.userId === session.id
-            );
+        const notification = await getNotification(session.id);
 
-            getUserLikes?.map((item: { likes: Array<any> }) => {
-              return Promise.all([
-                setNotification(item.likes.length),
-                setNotificationList(item.likes),
-              ]);
-            });
-          });
+        notification?.map((item: { likes: Array<any> }) => {
+          return Promise.all([
+            setNotification(item.likes.length),
+            setNotificationList(item.likes),
+          ]);
+        });
       }
     }, 10000);
 

@@ -1,4 +1,4 @@
-import { getSession, destroySession } from "~/api/services/session.server";
+import { getSession, destroySession } from "~/services/session.server";
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";

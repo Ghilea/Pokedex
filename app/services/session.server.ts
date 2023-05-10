@@ -2,6 +2,7 @@ import { createCookieSessionStorage } from "@remix-run/node";
 
 type SessionData = {
     userId: string;
+    searchParams: any
 };
 
 type SessionFlashData = {
@@ -24,8 +25,3 @@ const { getSession, commitSession, destroySession } =
     );
 
 export { getSession, commitSession, destroySession };
-
-export type User = {
-    name: string;
-    token: string;
-};
