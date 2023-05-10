@@ -2,6 +2,7 @@ import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import PokemonList from "~/components/pokemonList";
 import {
   addLike,
+  getLike,
   getLikes,
   getPokemons,
   deleteLike,
@@ -60,21 +61,10 @@ export async function action({ request }: ActionArgs) {
   const userId: any = session.get("userId");
 
   session.set("searchParams", data);
-  /* const isLiked = await getLikes(userId?.id).then(
-    (res: { json: () => Promise<any> }) => res.json().then((data) => data)
-  );
+  
+  const isLiked = await getLike(userId?.id, data.pokemon_id);
 
-  const deleteIt = isLiked.find(
-    (o: { id: number; pokemon_id: string; user_id: number }) => {
-      if (o.pokemon_id == data.pokemon_id && o.user_id == userId?.id) {
-        return o.id;
-      }
-    }
-  );
-
-  return deleteIt !== undefined
-    ? deleteLike(deleteIt.id)
-    : addLike(data.pokemon_id, userId?.id); */
-
-  return null;
+  return isLiked.length > 0
+    ? deleteLike(isLiked[0].id)
+    : addLike(data.pokemon_id, userId?.id);
 }

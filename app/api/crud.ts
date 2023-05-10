@@ -44,30 +44,22 @@ export const getPokemon: any = async (pokemonId: number) => {
 
 export const addPokemon: any = async (data: any) => {
     const url = `http://localhost:3004/addPokemons`;
-    axios.post(url, data)
+    await axios.post(url, data)
 }
 
 //likes
-export const addLike: any = async (pokemon_id: any, userId: number) => {
+export const addLike: any = async (pokemonId: any, userId: number) => {
     const url = `http://localhost:3004/addLike`;
-
-    return axios.post(url, { user_id: userId, pokemon_id: pokemon_id, added: moment().format('YYYY-MM-DD HH:mm:ss') });
+    return axios.post(url, { userId: userId, pokemonId: pokemonId, added: moment().format('YYYY-MM-DD HH:mm:ss') });
 }
 
 export const deleteLike: any = async (id: any) => {
-    const url = `http://localhost:3004/deleteLike/${id}`;
-
-    return fetch(url, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    const url = `http://localhost:3004/deleteLike`;
+    await axios.delete(url, { params: { id: id } });
 }
 
 export const getLike: any = async (userId: number, pokemonId: number) => {
     const url = `http://localhost:3004/getLike?userId=${userId}&pokemonId=${pokemonId}`;
-
     return await axios.get(url).then(data => data.data);
 }
 
@@ -83,30 +75,16 @@ export const getNotification: any = async (userId: number) => {
 }
 
 export const deleteNotification: any = async (userId: number) => {
-    const url = `http://localhost:3004/deleteNotification/${userId}`;
-
-    return fetch(url, {
-        method: "PATCH",
-        body: JSON.stringify({ likes: [] }),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    const url = `http://localhost:3004/deleteNotification`;
+    await axios.patch(url, { userId: userId });
 }
 
 export const updateNotification: any = async (userId: number, data: Array<any>) => {
-    const url = `http://localhost:3004/updateNotification/${userId}`;
-    return fetch(url, {
-        method: "PATCH",
-        body: JSON.stringify({ likes: data }),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    const url = `http://localhost:3004/updateNotification`;
+    await axios.patch(url, { userId: userId, likes: data, added: moment().format('YYYY-MM-DD HH:mm:ss') });
 }
 
 export const addNotification: any = async (userId: number, likes: object) => {
     const url = `http://localhost:3004/addNotification`;
-
-    axios.post(url, { userId: userId, likes, added: moment().format('YYYY-MM-DD HH:mm:ss') })
+    await axios.post(url, { userId: userId, likes, added: moment().format('YYYY-MM-DD HH:mm:ss') })
 }

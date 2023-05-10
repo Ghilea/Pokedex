@@ -1,5 +1,4 @@
 
-import { getUser } from "~/features/auth/api/crud";
 import { addNotification, getLikes, getNotification, updateNotification } from "~/api/crud";
 
 export default async function pokemonLikes(sessionId: number) {
@@ -10,6 +9,5 @@ export default async function pokemonLikes(sessionId: number) {
     
     const notificationExist = await getNotification(sessionId);
     
-    notificationExist?.length === 0 ? console.log('post') : allLikes > 0 && updateNotification(sessionId, allLikes)
-        //addNotification(sessionId, filteredLikes) : updateNotification(sessionId, filteredLikes)
+    notificationExist?.length === 0 ? addNotification(sessionId, allLikes) : allLikes > 0 && updateNotification(sessionId, allLikes)
 }
