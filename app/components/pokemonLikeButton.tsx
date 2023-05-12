@@ -8,10 +8,11 @@ interface Props {
 }
 
 const PokemonLikeButton = ({ data, id }: Props) => {
+
   return (
-    <Form method="post" action="/?index">
+    <Form method="post">
       <input name="pokemon_id" value={id} hidden readOnly />
-      <button className="w-5 h-5">
+      <button type="submit" className="w-5 h-5">
         <img
           src={
             data &&

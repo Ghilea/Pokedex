@@ -4,8 +4,6 @@ import { addNotification, getLikes, getNotification, updateNotification } from "
 export default async function pokemonLikes(sessionId: number) {
 
     const allLikes = await getLikes(sessionId);
-
-    console.log('allLikes',allLikes)
     
     const notificationExist = await getNotification(sessionId);
     

@@ -9,8 +9,9 @@ import {
   downloadPokemonFromAPI,
 } from "~/api/crud";
 import Search from "~/components/search";
-import { useLoaderData } from "@remix-run/react";
 import { getSession } from "~/services/session.server";
+import { useLoaderData, useActionData, useRevalidator } from "@remix-run/react";
+import { useEffect } from "react";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Sök pokémon" }];
@@ -19,6 +20,14 @@ export const meta: V2_MetaFunction = () => {
 export default function Index() {
   const { pokemonList, pokemonLikes, userId } = useLoaderData();
 
+  const actionData = useActionData<typeof action>();
+
+  const revalidator = useRevalidator();
+
+  useEffect(() => {
+    revalidator.revalidate();
+  }, [actionData]);
+  
   return (
     <>
       <h1 className="mb-16 text-5xl text-white font-pokemon">Pokémon</h1>
@@ -64,7 +73,9 @@ export async function action({ request }: ActionArgs) {
   
   const isLiked = await getLike(userId?.id, data.pokemon_id);
 
-  return isLiked.length > 0
+  isLiked.length > 0
     ? deleteLike(isLiked[0].id)
     : addLike(data.pokemon_id, userId?.id);
+  
+   return { message: "reload" };
 }

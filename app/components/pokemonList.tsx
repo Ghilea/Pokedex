@@ -34,7 +34,7 @@ const PokemonList = ({ pokemonList, pokemonLikes, userId }: Props) => {
               </span>
 
               <h2 className="w-full ml-3 text-white">
-                <Link to={`/view?pokemonId=${pokemons.id}`}>{pokemons.name}</Link>
+                <Link to={`/view?pokemon_id=${pokemons.id}`}>{pokemons.name}</Link>
               </h2>
 
               <div>
