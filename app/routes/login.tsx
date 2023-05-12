@@ -37,7 +37,7 @@ export async function action({ request }: ActionArgs) {
     return redirect("/login", {
       headers: {
         "Set-Cookie": await commitSession(session),
-      },
+      }
     });
   }
 
@@ -49,7 +49,7 @@ export async function action({ request }: ActionArgs) {
   return redirect("/", {
     headers: {
       "Set-Cookie": await commitSession(session),
-    },
+    }
   });
 }
 

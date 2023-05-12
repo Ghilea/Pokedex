@@ -1,6 +1,6 @@
 import InputField from "./forms/inputField";
 import Button from "~/components/button";
-import { Form } from "@remix-run/react";
+import { Form, useFetcher } from "@remix-run/react";
 import { useState } from "react";
 
 interface Props {
@@ -10,9 +10,8 @@ interface Props {
 const Search = ({ defaultValue }: Props) => {
   const [sort, setSort] = useState<string>("id");
   const [order, setOrder] = useState<boolean>(true);
-
-
-  const handleClickId = () => {
+  
+  const handleClickId = (e: any) => {
     if (sort === "id" && order) {
       setOrder(false);
     } else {
@@ -20,9 +19,11 @@ const Search = ({ defaultValue }: Props) => {
     }
 
     setSort("id");
+
+    fetcher.submit(e.currentTarget.form);
   };
 
-  const handleClickName = () => {
+  const handleClickName = (e: any) => {
     if (sort === "name" && order) {
       setOrder(false);
     } else {
@@ -30,19 +31,24 @@ const Search = ({ defaultValue }: Props) => {
     }
 
     setSort("name");
+
+    fetcher.submit(e.currentTarget.form);
   };
+
+  const fetcher = useFetcher();
 
   return (
     <Form
-      method="POST"
+      method="post"
       className="flex flex-col items-center justify-start w-full gap-3 mb-3"
-      id="search-form"
     >
       <InputField
+        onChange={(e: any) => fetcher.submit(e.currentTarget.form)}
         className="h-10 px-5 bg-slate-400 rounded-xl"
         type="search"
         name="search"
         placeholder="Gör din sökning..."
+   
         defaultValue={defaultValue}
       />
 
@@ -51,7 +57,8 @@ const Search = ({ defaultValue }: Props) => {
 
       <div className="flex justify-start w-full gap-2">
         <Button
-          onClick={() => handleClickId()}
+          type="button"
+          onClick={(e: any) => handleClickId(e)}
           className="w-10 h-10 gap-2 ml-7"
           icon={
             sort == "id"
@@ -64,7 +71,8 @@ const Search = ({ defaultValue }: Props) => {
           Id
         </Button>
         <Button
-          onClick={() => handleClickName()}
+          type="button"
+          onClick={(e: any) => handleClickName(e)}
           className="w-10 h-10 gap-2 ml-7"
           icon={
             sort == "name"

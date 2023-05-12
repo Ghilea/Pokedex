@@ -111,5 +111,5 @@ export async function action({ request }: ActionArgs) {
     ? deleteLike(isLiked[0].id)
     : addLike(data.pokemon_id, userId?.id);
 
-  return { message: "reload" };
+  return { message: "refresh" };
 }
