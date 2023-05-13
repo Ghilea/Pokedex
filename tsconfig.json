@@ -1,6 +1,5 @@
 {
   "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "app/utiles/timeout.ts", "app/entry.server.tsx"],
-  "exclude": ["node_modules"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,
