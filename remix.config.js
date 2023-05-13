@@ -7,9 +7,12 @@ module.exports = {
     v2_normalizeFormMethod: true,
     v2_routeConvention: true,
   },
+  appDirectory: "app",
+  assetsBuildDirectory: "public/build",
+  publicPath: "/build/",
   ignoredRouteFiles: ["**/.*", "**/*.test.{js,jsx,ts,tsx}"],
   postcss: true,
   serverModuleFormat: "cjs",
-  serverDependenciesToBundle: ["axios"],
+  serverDependenciesToBundle: "all",
   tailwind: true,
 };
