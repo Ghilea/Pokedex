@@ -33,63 +33,64 @@ export const downloadPokemonFromAPI: any = async () => {
 
 //pokemons
 export const getPokemons: any = async (search: string | number = "", sort: string = 'id', order: string = 'asc') => {
-    const url = `http://217.210.173.199:3004/getPokemons?search=${search}&sort=${sort}&order=${order}`;
+    const url = `https://ghilea.se:80/getPokemons?search=${search}&sort=${sort}&order=${order}`;
     return await axios.get(url).then(data => data.data);
 }
 
 export const getPokemon: any = async (pokemonId: number) => {
-    const url = `http://217.210.173.199:3004/getPokemon?pokemonId=${pokemonId}`;
+    const url = `https://ghilea.se:80/getPokemon?pokemonId=${pokemonId}`;
     return await axios.get(url).then(res => res.data);
 }
 
 export const addPokemon: any = async (data: any) => {
-    const url = `http://217.210.173.199:3004/addPokemons`;
+    const url = `https://ghilea.se:80/addPokemons`;
     await axios.post(url, data)
 }
 
 //likes
 export const addLike: any = async (pokemonId: any, userId: number) => {
-    const url = `http://217.210.173.199:3004/addLike`;
+    const url = `https://ghilea.se:80/addLike`;
     return axios.post(url, { userId: userId, pokemonId: pokemonId, added: moment().format('YYYY-MM-DD HH:mm:ss') });
 }
 
 export const deleteLike: any = async (id: any) => {
-    const url = `http://217.210.173.199:3004/deleteLike`;
+    const url = `https://ghilea.se:80/deleteLike`;
     await axios.delete(url, { params: { id: id } });
 }
 
 export const getLike: any = async (userId: number, pokemonId: number) => {
-    const url = `http://217.210.173.199:3004/getLike?userId=${userId}&pokemonId=${pokemonId}`;
+    const url = `https://ghilea.se:80/getLike?userId=${userId}&pokemonId=${pokemonId}`;
     return await axios.get(url).then(data => data.data);
 }
 
 export const getLikes: any = async (userId: number) => {
-    const url = `http://217.210.173.199:3004/getLikes?userId=${userId}`;
+    const url = `https://ghilea.se:80/getLikes?userId=${userId}`;
     return await axios.get(url).then(data => data.data);
 }
 
 export const getOtherLikes: any = async (userId: number) => {
-    const url = `http://217.210.173.199:3004/getOtherLikes?userId=${userId}`;
+    const url = `https://ghilea.se:80/getOtherLikes?userId=${userId}`;
     return await axios.get(url).then(data => data.data);
 }
 
 //notifications
 export const getNotification: any = async (userId: number) => {
-    const url = `http://217.210.173.199:3004/getNotification?userId=${userId}`;
+    const url = `https://ghilea.se:80/getNotification?userId=${userId}`;
     return await axios.get(url).then(data => data.data);
 }
 
 export const deleteNotification: any = async (userId: number) => {
-    const url = `http://217.210.173.199:3004/deleteNotification`;
-    await axios.patch(url, { userId: userId });
+    const url = `https://ghilea.se:80/deleteNotification`;
+    await axios.delete(url, { params: { userId: userId } });
 }
 
 export const updateNotification: any = async (userId: number, data: Array<any>) => {
-    const url = `http://217.210.173.199:3004/updateNotification`;
-    await axios.patch(url, { userId: userId, likes: data, added: moment().format('YYYY-MM-DD HH:mm:ss') });
+    console.log(data)
+    const url = `https://ghilea.se:80/updateNotification`;
+    await axios.patch(url, { userId: userId, likes: JSON.stringify(data), added: moment().format('YYYY-MM-DD HH:mm:ss') });
 }
 
 export const addNotification: any = async (userId: number) => {
-    const url = `http://217.210.173.199:3004/addNotification`;
+    const url = `https://ghilea.se:80/addNotification`;
     await axios.post(url, { userId: userId, added: moment().format('YYYY-MM-DD HH:mm:ss') })
 }

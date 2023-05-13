@@ -18,10 +18,12 @@ const Notification = ({ session }: Props) => {
 
       if (session) {
         const notification = await getNotification(session.id);
-        notification?.map((item: { likes: Array<any> }) => {
+
+        console.log('noti?', notification)
+        notification?.map((item: any) => {
           return Promise.all([
-            setNotification(item.likes.length),
-            setNotificationList(item.likes),
+            setNotification(JSON.parse(item.likes).length),
+            setNotificationList(JSON.parse(item.likes)),
           ]);
         });
       }
