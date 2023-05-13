@@ -4,7 +4,7 @@ import { Form } from "@remix-run/react";
 
 const AuthForm = () => {
   return (
-    <Form className="flex flex-col w-full gap-5" method="post" id="create-form">
+    <Form className="flex flex-col w-full gap-5" method="post">
       <InputField
         placeholder="Användarnamn *"
         label="Användarnamn"
@@ -36,7 +36,7 @@ const AuthForm = () => {
       </div>
 
       <div className="flex flex-row items-center justify-end w-full px-2">
-        <Button>Skapa</Button>
+        <Button type="submit">Skapa</Button>
       </div>
     </Form>
   );

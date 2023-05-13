@@ -1,9 +1,5 @@
-import {
-  ActionArgs,
-  LoaderArgs,
-  V2_MetaFunction,
-  redirect,
-} from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import PokemonList from "~/components/pokemonList";
 import {
   addLike,
@@ -54,7 +50,7 @@ export async function loader({ request }: LoaderArgs) {
   const params: any = session.get("params");
 
   const checkDBForPokemons = await getPokemons();
-  
+
   if (checkDBForPokemons.length === 0) {
     await downloadPokemonFromAPI();
   }
@@ -63,7 +59,7 @@ export async function loader({ request }: LoaderArgs) {
     pokemonList: await getPokemons(params?.search, params?.sort, params?.order),
     pokemonLikes: userId ? await getLikes(userId?.id) : null,
     userId: userId?.id,
-    defaultSearch: params?.search
+    defaultSearch: params?.search,
   };
 }
 

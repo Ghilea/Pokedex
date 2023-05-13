@@ -18,7 +18,6 @@ const Notification = ({ session }: Props) => {
 
       if (session) {
         const notification = await getNotification(session.id);
-
         notification?.map((item: { likes: Array<any> }) => {
           return Promise.all([
             setNotification(item.likes.length),

@@ -44,7 +44,7 @@ export async function action({ request }: ActionArgs) {
   session.set("userId", validation[0]);
 
   addOrUpdatePokemonLikes(validation[0].id);
-  dateLoginToUserAccount(validation[0].id);
+  //dateLoginToUserAccount(validation[0].id);
 
   return redirect("/", {
     headers: {

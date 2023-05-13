@@ -68,6 +68,11 @@ export const getLikes: any = async (userId: number) => {
     return await axios.get(url).then(data => data.data);
 }
 
+export const getOtherLikes: any = async (userId: number) => {
+    const url = `http://localhost:3004/getOtherLikes?userId=${userId}`;
+    return await axios.get(url).then(data => data.data);
+}
+
 //notifications
 export const getNotification: any = async (userId: number) => {
     const url = `http://localhost:3004/getNotification?userId=${userId}`;
@@ -84,7 +89,7 @@ export const updateNotification: any = async (userId: number, data: Array<any>) 
     await axios.patch(url, { userId: userId, likes: data, added: moment().format('YYYY-MM-DD HH:mm:ss') });
 }
 
-export const addNotification: any = async (userId: number, likes: object) => {
+export const addNotification: any = async (userId: number) => {
     const url = `http://localhost:3004/addNotification`;
-    await axios.post(url, { userId: userId, likes, added: moment().format('YYYY-MM-DD HH:mm:ss') })
+    await axios.post(url, { userId: userId, added: moment().format('YYYY-MM-DD HH:mm:ss') })
 }
