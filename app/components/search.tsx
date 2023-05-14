@@ -1,91 +1,95 @@
 import InputField from "./forms/inputField";
 import Button from "~/components/button";
 import { Form, useFetcher } from "@remix-run/react";
-import { useState } from "react";
 
 interface Props {
-  defaultValue: any;
+  search: any;
+  orders: any;
 }
 
-const Search = ({ defaultValue }: Props) => {
-  const [sort, setSort] = useState<string>("id");
-  const [order, setOrder] = useState<boolean>(true);
-  
-  const handleClickId = (e: any) => {
-    if (sort === "id" && order) {
-      setOrder(false);
-    } else {
-      setOrder(true);
-    }
-
-    setSort("id");
-
-    fetcher.submit(e.currentTarget.form);
-  };
-
-  const handleClickName = (e: any) => {
-    if (sort === "name" && order) {
-      setOrder(false);
-    } else {
-      setOrder(true);
-    }
-
-    setSort("name");
-
-    fetcher.submit(e.currentTarget.form);
-  };
-
+const Search = ({ search, orders }: Props) => {
   const fetcher = useFetcher();
 
   return (
-    <Form
-      method="post"
-      className="flex flex-col items-center justify-start w-full gap-3 mb-3"
-    >
-      <InputField
-        onChange={(e: any) => fetcher.submit(e.currentTarget.form)}
-        className="h-10 px-5 bg-slate-400 rounded-xl"
-        type="search"
-        name="search"
-        placeholder="Gör din sökning..."
-   
-        defaultValue={defaultValue}
-      />
-
-      <input name="sort" defaultValue={sort} hidden />
-      <input name="order" defaultValue={order ? "asc" : "desc"} hidden />
-
-      <div className="flex justify-start w-full gap-2">
+    <>
+      <Form
+        method="post"
+        className="flex items-center justify-start w-full gap-3 mb-3"
+      >
+        <InputField
+          onChange={(e: any) => fetcher.submit(e.currentTarget.form)}
+          className="h-10 px-5 bg-slate-400 rounded-xl"
+          type="search"
+          name="search"
+          placeholder="Gör din sökning..."
+          defaultValue={search}
+        />
         <Button
-          type="button"
-          onClick={(e: any) => handleClickId(e)}
+          type="submit"
           className="w-10 h-10 gap-2 ml-7"
-          icon={
-            sort == "id"
-              ? order
-                ? "/assets/icons/arrowDown.svg"
-                : "/assets/icons/arrowUp.svg"
-              : null
-          }
         >
-          Id
+          Sök
         </Button>
-        <Button
-          type="button"
-          onClick={(e: any) => handleClickName(e)}
-          className="w-10 h-10 gap-2 ml-7"
-          icon={
-            sort == "name"
-              ? order
+      </Form>
+      <div className="flex justify-start w-full gap-2 mb-3">
+        <Form method="post">
+          <input
+            name="orderId"
+            defaultValue={
+              orders.orderId === "asc"
+                ? "desc"
+                : orders.orderId === "desc"
+                ? ""
+                : orders.orderId === ""
+                ? "asc"
+                : "asc"
+            }
+            hidden
+          />
+          <Button
+            type="submit"
+            className="w-[10em] h-10 gap-2"
+            icon={
+              orders.orderId === "asc"
                 ? "/assets/icons/arrowDown.svg"
-                : "/assets/icons/arrowUp.svg"
-              : null
-          }
-        >
-          Namn
-        </Button>
+                : orders.orderId === "desc"
+                ? "/assets/icons/arrowUp.svg"
+                : ""
+            }
+          >
+            Id
+          </Button>
+        </Form>
+        <Form method="post">
+          <input
+            name="orderName"
+            defaultValue={
+              orders.orderName === "asc"
+                ? "desc"
+                : orders.orderName === "desc"
+                ? ""
+                : orders.orderName === ""
+                ? "asc"
+                : "asc"
+            }
+            hidden
+          />
+          <Button
+            type="submit"
+            className="w-[10em] h-10 gap-2"
+            icon={
+              orders.orderName === "asc"
+                ? "/assets/icons/arrowDown.svg"
+                : orders.orderName === "desc"
+                ? "/assets/icons/arrowUp.svg"
+                : ""
+            }
+          >
+            Namn
+          </Button>
+        </Form>
       </div>
-    </Form>
+    </>
   );
 };
 

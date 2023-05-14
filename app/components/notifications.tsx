@@ -14,12 +14,12 @@ const Notification = ({ session }: Props) => {
 
   useEffect(() => {
     const time = setInterval(async () => {
-      await addOrUpdatePokemonLikes(session.id);
+      await addOrUpdatePokemonLikes(session);
 
       if (session) {
         const notification = await getNotification(session.id);
 
-        console.log('noti?', notification)
+        console.log("noti?", notification);
         notification?.map((item: any) => {
           return Promise.all([
             setNotification(JSON.parse(item.likes).length),
@@ -42,15 +42,18 @@ const Notification = ({ session }: Props) => {
     }
   }, [isExpanded, notification, session]);
 
+  console.log(notificationList)
   return (
     <>
-      <div className="flex items-center justify-center w-5 gap-2 text-white">
-        <img src={notifcationImage} alt="notification" />
-        <button onClick={() => setIsExpanded(!isExpanded)} type="button">
-          {notification}
-        </button>
-      </div>
-      {isExpanded && (
+      {notification > 0 && (
+        <div className="flex items-center justify-center w-5 gap-2 text-white">
+          <img src={notifcationImage} alt="notification" />
+          <button onClick={() => setIsExpanded(!isExpanded)} type="button">
+            {notification}
+          </button>
+        </div>
+      )}
+      {(isExpanded && notificationList.length > 0) && (
         <div className="absolute flex items-center justify-start p-5 bg-white rounded-md w-[400px] top-10 right-5">
           <button
             onClick={() => setIsExpanded(!isExpanded)}

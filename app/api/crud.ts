@@ -32,8 +32,8 @@ export const downloadPokemonFromAPI: any = async () => {
 };
 
 //pokemons
-export const getPokemons: any = async (search: string | number = "", sort: string = 'id', order: string = 'asc') => {
-    const url = `https://ghilea.se:80/getPokemons?search=${search}&sort=${sort}&order=${order}`;
+export const getPokemons: any = async (search: string | number = "", orderId: string = 'asc', orderName: string = 'asc') => {
+    const url = `https://ghilea.se:80/getPokemons?search=${search}&orderId=${orderId}&orderName=${orderName}`;
     return await axios.get(url).then(data => data.data);
 }
 
@@ -85,7 +85,6 @@ export const deleteNotification: any = async (userId: number) => {
 }
 
 export const updateNotification: any = async (userId: number, data: Array<any>) => {
-    console.log(data)
     const url = `https://ghilea.se:80/updateNotification`;
     await axios.patch(url, { userId: userId, likes: JSON.stringify(data), added: moment().format('YYYY-MM-DD HH:mm:ss') });
 }

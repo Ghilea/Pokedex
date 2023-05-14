@@ -19,7 +19,8 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function Index() {
-  const { pokemonList, pokemonLikes, userId, defaultSearch } = useLoaderData();
+  const { pokemonList, pokemonLikes, userId, search, orderId, orderName } =
+    useLoaderData();
 
   const actionData = useActionData<typeof action>();
 
@@ -33,7 +34,7 @@ export default function Index() {
     <>
       <h1 className="mb-16 text-5xl text-white font-pokemon">Pokémon</h1>
       <div className="w-full sm:max-w-[70%] 2xl:max-w-[40%] sm:max-h-[70%] h-full 2xl:max-h-[50%] flex justify-center items-center flex-col">
-        <Search defaultValue={defaultSearch} />
+        <Search search={search} orders={{ orderId, orderName }} />
         <PokemonList
           pokemonList={pokemonList}
           pokemonLikes={pokemonLikes}
@@ -56,10 +57,16 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   return {
-    pokemonList: await getPokemons(params?.search, params?.sort, params?.order),
+    pokemonList: await getPokemons(
+      params?.search,
+      params?.orderId,
+      params?.orderName
+    ),
     pokemonLikes: userId ? await getLikes(userId?.id) : null,
     userId: userId?.id,
-    defaultSearch: params?.search,
+    search: params?.search,
+    orderId: params?.orderId,
+    orderName: params?.orderName,
   };
 }
 
@@ -67,21 +74,30 @@ export async function action({ request }: ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
+
   const userId: any = session.get("userId");
+  const params: any = session.get("params");
 
-  const isLiked = await getLike(userId?.id, data.pokemon_id);
+  console.log("data", data, "params", params);
 
-  isLiked.length > 0
-    ? deleteLike(isLiked[0].id)
-    : addLike(data.pokemon_id, userId?.id);
-
-  if (data.search || data.sort || data.order) {
-    session.set("params", data);
+  if ((data.search === '') || data.search || (data.orderId === '') || data.orderId || (data.orderName === '') || data.orderName) {
+    console.log('update session')
+    session.set("params", {
+      search: data.search === undefined ? params.search : data.search,
+      orderId: data.orderId === undefined ? "" : data.orderId,
+      orderName: data.orderName === undefined ? "" : data.orderName,
+    });
     return redirect("/", {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
     });
+  } else {
+    const isLiked = await getLike(userId?.id, data.pokemon_id);
+
+    isLiked.length > 0
+      ? deleteLike(isLiked[0].id)
+      : addLike(data.pokemon_id, userId?.id);
   }
 
   return { message: "refresh" };

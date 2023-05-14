@@ -5,10 +5,13 @@ interface Props {
   children: React.ReactNode;
   className?: string;
   onClick?: any;
+  value?: string | undefined;
   type?: "button" | "submit" | "reset" | undefined;
+  name?: string | undefined;
 }
 
 const Button = ({
+  name,
   type,
   width,
   fontSize,
@@ -16,13 +19,16 @@ const Button = ({
   children,
   className = "",
   onClick,
+  value,
   ...restProps
 }: Props) => {
   return (
     <button
+      name={name}
+      value={value}
       type={type}
       onClick={onClick}
-      className={`w-full max-w-[6em] shadow-xl py-2 px-1 flex justify-center items-center gap-1 rounded-md text-white bg-blue-500 bg-opacity-50 hover:bg-opacity-75 transition-all ${className}}`}
+      className={`w-full max-w-[6em] shadow-xl py-2 px-3 flex justify-center items-center gap-1 rounded-md text-white bg-blue-500 bg-opacity-50 hover:bg-opacity-75 transition-all ${className}}`}
       style={{ width: width, fontSize: fontSize }}
       {...restProps}
     >
