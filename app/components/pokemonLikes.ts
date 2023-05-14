@@ -1,17 +1,19 @@
 
-import { addNotification, getLikes, getOtherLikes, getNotification, updateNotification } from "~/api/crud";
+import { addNotification, getOtherLikes, getNotification, updateNotification } from "~/api/crud";
+import { dateLoginToUserAccount, getUser } from "~/features/auth/api/crud";
 
-export default async function pokemonLikes(session: { id: number, lastLogin: any }) {
+export default async function pokemonLikes(session: { id: number }) {
 
-    const getallLikes = await getLikes(session.id);
+    const getUserInformation = await getUser(session.id);
 
-    const getOther = await getOtherLikes(session.id);
+    const getOther = await getOtherLikes(session.id, getUserInformation.lastLogin);
 
-    const pokemonsToBeListed = getallLikes?.map((item: any) => {
-        return getOther?.find((o: { pokemon_id: number, added: any }) => o.pokemon_id == item.pokemon_id && o.added >= session.lastLogin)
-     });
-     
     const notificationExist = await getNotification(session.id);
-    
-    notificationExist?.length === 0 ? addNotification(session.id) : pokemonsToBeListed.length > 0 && updateNotification(session.id, pokemonsToBeListed)
+
+    if (notificationExist?.length === 0) {
+        addNotification(session.id)
+    } else if (getOther[0].length > 0) {
+        dateLoginToUserAccount(session.id);
+        updateNotification(session.id, getOther[0])
+    }
 }

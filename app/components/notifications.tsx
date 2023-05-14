@@ -18,8 +18,6 @@ const Notification = ({ session }: Props) => {
 
       if (session) {
         const notification = await getNotification(session.id);
-
-        console.log("noti?", notification);
         notification?.map((item: any) => {
           return Promise.all([
             setNotification(JSON.parse(item.likes).length),
@@ -42,7 +40,6 @@ const Notification = ({ session }: Props) => {
     }
   }, [isExpanded, notification, session]);
 
-  console.log(notificationList)
   return (
     <>
       {notification > 0 && (

@@ -78,10 +78,7 @@ export async function action({ request }: ActionArgs) {
   const userId: any = session.get("userId");
   const params: any = session.get("params");
 
-  console.log("data", data, "params", params);
-
   if ((data.search === '') || data.search || (data.orderId === '') || data.orderId || (data.orderName === '') || data.orderName) {
-    console.log('update session')
     session.set("params", {
       search: data.search === undefined ? params.search : data.search,
       orderId: data.orderId === undefined ? "" : data.orderId,
