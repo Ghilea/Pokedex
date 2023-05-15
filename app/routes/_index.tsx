@@ -89,7 +89,7 @@ export async function action({ request }: ActionArgs) {
       search: data.search,
       sort: sort === undefined ? "id" : sort,
       order: order === undefined ? "asc" : order,
-      currentPage: Number(data.currentPage),
+      currentPage: data.currentPage === undefined ? 1 : Number(data.currentPage),
     });
     return redirect("/", {
       headers: {
