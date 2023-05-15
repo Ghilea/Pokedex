@@ -85,6 +85,10 @@ export async function action({ request }: ActionArgs) {
     const sort = split[0];
     const order = split[1];
 
+    console.log(
+      data.currentPage,
+      data.currentPage === undefined ? 1 : Number(data.currentPage)
+    );
     session.set("params", {
       search: data.search,
       sort: sort === undefined ? "id" : sort,
