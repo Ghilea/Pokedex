@@ -53,7 +53,7 @@ export async function loader({ request }: LoaderArgs) {
     await downloadPokemonFromAPI();
   }
 
-  console.log(params)
+  console.log('params', params)
   return {
     pokemonList: await getPokemons(
       params?.search,
@@ -78,9 +78,9 @@ export async function action({ request }: ActionArgs) {
 
   const userId: any = session.get("userId");
 
-  if (data.search === "" || data.search || data.order || data.currentPage) {
+  if (!data.search || data.search || data.order || data.currentPage) {
     
-    console.log(data)
+    console.log('data to be set', data)
     const split = data.order.toString().split(" ");
     const sort = split[0];
     const order = split[1];
@@ -89,7 +89,7 @@ export async function action({ request }: ActionArgs) {
       search: data.search,
       sort: sort === undefined ? "id" : sort,
       order: order === undefined ? "asc" : order,
-      currentPage: data.currentPage,
+      currentPage: Number(data.currentPage),
     });
     return redirect("/", {
       headers: {

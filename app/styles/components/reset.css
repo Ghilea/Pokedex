@@ -93,9 +93,3 @@ meter {
 :where([draggable="true"]) {
     -webkit-user-drag: element;
 }
-
-.disabled {
-    pointer-events: none !important;
-    opacity: 0.5 !important;
-
-}
