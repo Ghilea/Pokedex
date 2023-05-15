@@ -24,8 +24,8 @@ export default {
         "p-red-light": "#ffc7d0", //lighter red
       },
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
         pokemon: ["Pokemon solid", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
       },
     },
   },

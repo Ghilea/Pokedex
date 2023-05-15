@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 
 export const downloadPokemonFromAPI: any = async () => {
-    const url = "https://pokeapi.co/api/v2/pokemon/?limit=3";
+    const url = "https://pokeapi.co/api/v2/pokemon?limit=30";
 
     const pokemons = await axios.get(url)
         .then(async (res: any) => {
@@ -14,12 +14,13 @@ export const downloadPokemonFromAPI: any = async () => {
             return Promise.all(promisesArray);
         })
 
-    pokemons.map(async (items: any) => {
+    pokemons.map(async (items: any, index: number) => {
 
         const abilities = await items.abilities?.map((item: any) => item.ability.name);
         const stats = await items.stats?.map((item: any) => ({ name: item.stat.name, amount: item.base_stat }));
 
         return addPokemon({
+            pokemonId: index+1,
             name: items.name,
             image: items.sprites.other.dream_world.front_default,
             height: items.height,
@@ -32,8 +33,13 @@ export const downloadPokemonFromAPI: any = async () => {
 };
 
 //pokemons
-export const getPokemons: any = async (search: string | number = "", sort: string = 'id', order: string = 'asc') => {
-    const url = `https://ghilea.se:80/getPokemons?search=${search}&sort=${sort}&order=${order}`;
+export const getAllPokemons: any = async () => {
+    const url = `https://ghilea.se:80/getAllPokemons`;
+    return await axios.get(url).then(data => data.data);
+}
+
+export const getPokemons: any = async (search: string | number = "", sort: string = 'pokemonId', order: string = 'asc', page: number = 1) => {
+    const url = `https://ghilea.se:80/getPokemons?search=${search}&sort=${sort}&order=${order}&page=${page}`;
     return await axios.get(url).then(data => data.data);
 }
 

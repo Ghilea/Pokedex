@@ -1,9 +1,8 @@
 import InputField from "~/components/forms/inputField";
-import Button from "~/components/button";
+import Button from "~/components/buttons/button";
 import { Form, Link } from "@remix-run/react";
 
 const AuthForm = () => {
-
   return (
     <Form className="flex flex-col w-full gap-5" method="post" id="login-form">
       <InputField

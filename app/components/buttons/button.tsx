@@ -8,6 +8,7 @@ interface Props {
   value?: string | undefined;
   type?: "button" | "submit" | "reset" | undefined;
   name?: string | undefined;
+  disabled?: boolean;
 }
 
 const Button = ({
@@ -20,15 +21,17 @@ const Button = ({
   className = "",
   onClick,
   value,
+  disabled = false,
   ...restProps
 }: Props) => {
   return (
     <button
+      disabled={disabled}
       name={name}
       value={value}
       type={type}
       onClick={onClick}
-      className={`w-full max-w-[6em] shadow-xl py-2 px-3 flex justify-center items-center gap-1 rounded-md text-white bg-blue-500 bg-opacity-50 hover:bg-opacity-75 transition-all ${className}}`}
+      className={`${className} w-full max-w-[6em] shadow-xl py-2 px-3 flex justify-center items-center gap-1 rounded-md text-white bg-blue-500 bg-opacity-50 hover:bg-opacity-75 transition-all`}
       style={{ width: width, fontSize: fontSize }}
       {...restProps}
     >

@@ -5,7 +5,7 @@ import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getSession, commitSession } from "~/services/session.server";
 import { dateLoginToUserAccount } from "~/features/auth/api/crud";
-import addOrUpdatePokemonLikes from "~/components/pokemonLikes";
+import addOrUpdatePokemonLikes from "~/features/likes";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Logga in" }];
@@ -37,7 +37,7 @@ export async function action({ request }: ActionArgs) {
     return redirect("/login", {
       headers: {
         "Set-Cookie": await commitSession(session),
-      }
+      },
     });
   }
 
@@ -49,7 +49,7 @@ export async function action({ request }: ActionArgs) {
   return redirect("/", {
     headers: {
       "Set-Cookie": await commitSession(session),
-    }
+    },
   });
 }
 

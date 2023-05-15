@@ -1,17 +1,18 @@
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import PokemonList from "~/components/pokemonList";
+import PokemonList from "~/features/pokemonList";
 import {
   addLike,
   getLike,
   getLikes,
   getPokemons,
+  getAllPokemons,
   deleteLike,
   downloadPokemonFromAPI,
 } from "~/api/crud";
-import Search from "~/components/search";
+import Search from "~/features/pokemonList/components/search";
 import { getSession, commitSession } from "~/services/session.server";
-import { useLoaderData, useActionData, useRevalidator } from "@remix-run/react";
+import { useActionData, useRevalidator } from "@remix-run/react";
 import { useEffect } from "react";
 
 export const meta: V2_MetaFunction = () => {
@@ -19,8 +20,6 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function Index() {
-  const { pokemonList, pokemonLikes, userId, search, sort, order } =
-    useLoaderData();
 
   const actionData = useActionData<typeof action>();
 
@@ -32,14 +31,12 @@ export default function Index() {
 
   return (
     <>
-      <h1 className="mb-16 text-5xl text-white font-pokemon">Pokémon</h1>
-      <div className="w-full sm:max-w-[70%] 2xl:max-w-[40%] sm:max-h-[70%] h-full 2xl:max-h-[50%] flex justify-center items-center flex-col">
-        <Search search={search} orders={{ sort, order }} />
-       <PokemonList
-          pokemonList={pokemonList}
-          pokemonLikes={pokemonLikes}
-          userId={userId}
-        />
+      <h1 className="mb-16 text-2xl md:text-4xl text-white font-pokemon tracking-widest">
+        Gotta Catch ’Em All!
+      </h1>
+      <div className="w-full h-full flex justify-center items-center flex-col max-w-screen-md">
+        <Search />
+        <PokemonList />
       </div>
     </>
   );
@@ -50,19 +47,27 @@ export async function loader({ request }: LoaderArgs) {
   const userId: any = session.get("userId");
   const params: any = session.get("params");
 
-  const checkDBForPokemons = await getPokemons();
+  const checkDBForPokemons = await getAllPokemons();
 
   if (checkDBForPokemons.length === 0) {
     await downloadPokemonFromAPI();
   }
 
+  console.log(params)
   return {
-    pokemonList: await getPokemons(params?.search, params?.sort, params?.order),
+    pokemonList: await getPokemons(
+      params?.search,
+      params?.sort,
+      params?.order,
+      params?.currentPage
+    ),
     pokemonLikes: userId ? await getLikes(userId?.id) : null,
     userId: userId?.id,
     search: params?.search,
     sort: params?.sort,
     order: params?.order,
+    listLength: checkDBForPokemons.length,
+    currentPage: params?.currentPage,
   };
 }
 
@@ -73,19 +78,18 @@ export async function action({ request }: ActionArgs) {
 
   const userId: any = session.get("userId");
 
-  if (
-    data.search === "" ||
-    data.search ||
-    data.order
-  ) {
+  if (data.search === "" || data.search || data.order || data.currentPage) {
+    
+    console.log(data)
     const split = data.order.toString().split(" ");
     const sort = split[0];
     const order = split[1];
 
     session.set("params", {
       search: data.search,
-      sort: sort === undefined ? 'id' : sort,
-      order: order === undefined ? 'asc' : order,
+      sort: sort === undefined ? "id" : sort,
+      order: order === undefined ? "asc" : order,
+      currentPage: data.currentPage,
     });
     return redirect("/", {
       headers: {

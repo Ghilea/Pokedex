@@ -1,13 +1,10 @@
-import InputField from "./forms/inputField";
-import Button from "~/components/button";
-import { Form, useFetcher } from "@remix-run/react";
+import InputField from "../../../components/forms/inputField";
+import Button from "~/components/buttons/button";
+import { Form, useFetcher, useLoaderData } from "@remix-run/react";
+import { Pagination } from "./pagination";
+const Search = () => {
+  const { search, sort, order } = useLoaderData();
 
-interface Props {
-  search: any;
-  orders: any;
-}
-
-const Search = ({ search, orders }: Props) => {
   const fetcher = useFetcher();
 
   return (
@@ -34,15 +31,18 @@ const Search = ({ search, orders }: Props) => {
           <select
             name="order"
             onChange={(e) => fetcher.submit(e.currentTarget.form)}
-            defaultValue={`${orders.sort} ${orders.order}`}
+            defaultValue={`${sort} ${order}`}
+            className="w-full max-w-fit shadow-xl py-2 px-3 flex justify-center items-center gap-1 rounded-md text-white bg-blue-500 bg-opacity-50 hover:bg-opacity-75 transition-all"
           >
             {/*  "/assets/icons/arrowUp.svg" <img src="/assets/icons/arrowDown.svg" alt="" /> */}
-            <option value="id asc">Id fallande</option>
-            <option value="id desc">Id stigande</option>
+            <option value="pokemonId asc">Id fallande</option>
+            <option value="pokemonId desc">Id stigande</option>
             <option value="name asc">Namn fallande</option>
             <option value="name desc">Namn stigande</option>
           </select>
         </div>
+
+        <Pagination />
       </Form>
     </>
   );

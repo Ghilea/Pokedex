@@ -1,5 +1,5 @@
 import InputField from "~/components/forms/inputField";
-import Button from "~/components/button";
+import Button from "~/components/buttons/button";
 import { Form } from "@remix-run/react";
 
 const AuthForm = () => {

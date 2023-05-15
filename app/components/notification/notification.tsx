@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import notifcationImage from "public/assets/icons/notification.svg";
 import { getNotification, deleteNotification } from "~/api/crud";
-import addOrUpdatePokemonLikes from "~/components/pokemonLikes";
+import addOrUpdatePokemonLikes from "~/features/likes";
 
 interface Props {
   session: any;
@@ -50,7 +50,7 @@ const Notification = ({ session }: Props) => {
           </button>
         </div>
       )}
-      {(isExpanded && notificationList.length > 0) && (
+      {isExpanded && notificationList.length > 0 && (
         <div className="absolute flex items-center justify-start p-5 bg-white rounded-md w-[400px] top-10 right-5">
           <button
             onClick={() => setIsExpanded(!isExpanded)}

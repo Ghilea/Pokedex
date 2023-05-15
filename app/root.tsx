@@ -5,7 +5,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
 } from "@remix-run/react";
 import appStyles from "./styles/app.css";
 import cssReset from "./styles/components/reset.css";
@@ -13,11 +12,9 @@ import cssFloating from "./styles/components/floating.css";
 import Navigation from "./features/navigation";
 import type { LoaderArgs } from "@remix-run/node";
 import { getSession } from "./services/session.server";
-import BackgroundAnimation from "./components/backgroundAnimation";
+import BackgroundAnimation from "./utiles/backgroundAnimation";
 
 export default function App() {
-  const { user } = useLoaderData();
-
   return (
     <html lang="en">
       <head>
@@ -26,11 +23,10 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="relative bg-gradient-to-b from-primary to-primary-light">
-        <header>
-          <Navigation session={user} />
-        </header>
-        <main className="flex flex-col items-center justify-center my-[10em] mx-5">
+      <body className="min-h-full relative bg-gradient-to-b from-primary to-primary-light select-none font-Roboto">
+        <Navigation />
+
+        <main className="flex flex-col items-center justify-center my-[10em] max-w-screen-xl mx-auto px-10">
           <Outlet />
         </main>
         <BackgroundAnimation />
@@ -60,10 +56,6 @@ export function links() {
     {
       rel: "stylesheet",
       href: appStyles,
-    },
-    {
-      rel: "stylesheet",
-      href: "https://fonts.googleapis.com/css2?family=Poppins&display=swap",
     },
     {
       rel: "stylesheet",

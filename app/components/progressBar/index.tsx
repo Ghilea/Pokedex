@@ -28,22 +28,23 @@ export const ProgressBar = ({
       className={`${
         rotate &&
         `${Background.GREENLIGHT} -rotate-90 portrait:scale-[4] portrait:h-[2em]`
-      } ${
-        !rotate && `${barWithBg} portrait:h-[5em]`
-      } rounded-[3em] w-full h-6 overflow-hidden`}
+      } ${!rotate && `${barWithBg}`} rounded-[3em] w-full h-6 overflow-hidden`}
     >
       <div
         className={`${
           rotate && Background.GREEN
         } relative landscape:rounded-[3em] ${
           !rotate && barwithoutBg
-        } w-full h-6 portrait:h-full max-w-full`}
+        } w-full h-6 portrait:h-full max-w-full flex items-center`}
         style={{
           width: `${reverse ? reversePercent : percent}%`,
         }}
       >
-        <p className="relative capitalize left-3">
-          {name && name} <span className="text-sm">( {amount} / {progress} )</span>
+        <p className="relative capitalize left-2">
+          {name && name}{" "}
+          <span className="text-sm">
+            ( {amount} / {progress} )
+          </span>
         </p>
       </div>
     </div>

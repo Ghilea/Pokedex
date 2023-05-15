@@ -1,13 +1,13 @@
 import { Form } from "@remix-run/react";
-import heart from "../../public/assets/icons/heart.svg";
-import redHeart from "../../public/assets/icons/redHeart.svg";
+import heart from "public/assets/icons/heart.svg";
+import redHeart from "public/assets/icons/redHeart.svg";
 
 interface Props {
   data: any;
   id: number;
 }
 
-const PokemonLikeButton = ({ data, id }: Props) => {
+const LikeButton = ({ data, id }: Props) => {
 
   return (
     <Form method="post">
@@ -27,4 +27,4 @@ const PokemonLikeButton = ({ data, id }: Props) => {
   );
 };
 
-export default PokemonLikeButton;
+export default LikeButton;

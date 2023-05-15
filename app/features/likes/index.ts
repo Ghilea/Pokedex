@@ -2,7 +2,7 @@
 import { addNotification, getOtherLikes, getNotification, updateNotification } from "~/api/crud";
 import { dateLoginToUserAccount, getUser } from "~/features/auth/api/crud";
 
-export default async function pokemonLikes(session: { id: number }) {
+const Likes = async (session: { id: number }) => {
 
     const getUserInformation = await getUser(session.id);
 
@@ -17,3 +17,5 @@ export default async function pokemonLikes(session: { id: number }) {
         updateNotification(session.id, getOther[0])
     }
 }
+
+export default Likes;

@@ -1,13 +1,18 @@
 import type { V2_MetaFunction, LoaderArgs, ActionArgs } from "@remix-run/node";
 import { getSession } from "~/services/session.server";
 import { getPokemon, getLike, addLike, deleteLike } from "~/api/crud";
-import { useLoaderData, useActionData, useRevalidator } from "@remix-run/react";
+import {
+  useLoaderData,
+  useActionData,
+  useRevalidator,
+  NavLink,
+} from "@remix-run/react";
 import { colorSelection } from "~/utiles/color-selection";
-import Tag from "~/components/tag";
+import Tag from "~/features/Tag";
 import { ProgressBar } from "~/components/progressBar";
-import PokemonLikeButton from "~/components/pokemonLikeButton";
+import PokemonLikeButton from "~/features/likes/components/likeButton";
 import { useEffect } from "react";
-
+import goBackIcon from "public/assets/icons/arrowLeft.svg";
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Pokemon" }];
 };
@@ -25,13 +30,21 @@ export default function View() {
   return pokemon.map((item: any) => {
     return (
       <div key={item.name} className="flex flex-col w-full gap-5 text-white">
-        <h1 className="flex justify-center text-5xl capitalize">{item.name}</h1>
+        <NavLink
+          className="flex items-center justify-center w-10 h-10 text-4xl rounded-full hover:opacity-50"
+          to="/"
+        >
+          <img src={goBackIcon} alt="Tillbaka" />
+        </NavLink>
+        <h1 className="flex justify-center text-5xl capitalize mt-24 mb-36">
+          {item.name}
+        </h1>
         <div className="flex flex-col justify-center gap-10 md:flex-row md:justify-evenly">
-          <div className="w-full md:w-[70%] flex justify-center">
+          <div className="w-full flex justify-center">
             <img width="500" src={item.image} alt={item.name} />
           </div>
 
-          <div className="w-full md:w-[30%] flex flex-col gap-5">
+          <div className="w-full flex flex-col gap-5">
             <h2 className="text-3xl">Information</h2>
             <p className="text-sm">(Kom ihåg att gilla dina älsklingar)</p>
             {userId && <PokemonLikeButton data={like} id={item.id} />}
@@ -45,7 +58,7 @@ export default function View() {
               <h3>Egenskaper</h3>
               <div className="flex flex-wrap gap-3">
                 <Tag>{item.weight} kg</Tag>
-                <Tag>{item.height} cm</Tag>
+                <Tag>{item.height} Höjd</Tag>
               </div>
             </div>
 
