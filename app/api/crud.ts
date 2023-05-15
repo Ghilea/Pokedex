@@ -32,8 +32,8 @@ export const downloadPokemonFromAPI: any = async () => {
 };
 
 //pokemons
-export const getPokemons: any = async (search: string | number = "", orderId: string = 'asc', orderName: string = 'asc') => {
-    const url = `https://ghilea.se:80/getPokemons?search=${search}&orderId=${orderId}&orderName=${orderName}`;
+export const getPokemons: any = async (search: string | number = "", sort: string = 'id', order: string = 'asc') => {
+    const url = `https://ghilea.se:80/getPokemons?search=${search}&sort=${sort}&order=${order}`;
     return await axios.get(url).then(data => data.data);
 }
 

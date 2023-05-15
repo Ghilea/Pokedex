@@ -19,7 +19,7 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function Index() {
-  const { pokemonList, pokemonLikes, userId, search, orderId, orderName } =
+  const { pokemonList, pokemonLikes, userId, search, sort, order } =
     useLoaderData();
 
   const actionData = useActionData<typeof action>();
@@ -34,8 +34,8 @@ export default function Index() {
     <>
       <h1 className="mb-16 text-5xl text-white font-pokemon">Pokémon</h1>
       <div className="w-full sm:max-w-[70%] 2xl:max-w-[40%] sm:max-h-[70%] h-full 2xl:max-h-[50%] flex justify-center items-center flex-col">
-        <Search search={search} orders={{ orderId, orderName }} />
-        <PokemonList
+        <Search search={search} orders={{ sort, order }} />
+       <PokemonList
           pokemonList={pokemonList}
           pokemonLikes={pokemonLikes}
           userId={userId}
@@ -57,16 +57,12 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   return {
-    pokemonList: await getPokemons(
-      params?.search,
-      params?.orderId,
-      params?.orderName
-    ),
+    pokemonList: await getPokemons(params?.search, params?.sort, params?.order),
     pokemonLikes: userId ? await getLikes(userId?.id) : null,
     userId: userId?.id,
     search: params?.search,
-    orderId: params?.orderId,
-    orderName: params?.orderName,
+    sort: params?.sort,
+    order: params?.order,
   };
 }
 
@@ -76,13 +72,20 @@ export async function action({ request }: ActionArgs) {
   const data = Object.fromEntries(formData);
 
   const userId: any = session.get("userId");
-  const params: any = session.get("params");
 
-  if ((data.search === '') || data.search || (data.orderId === '') || data.orderId || (data.orderName === '') || data.orderName) {
+  if (
+    data.search === "" ||
+    data.search ||
+    data.order
+  ) {
+    const split = data.order.toString().split(" ");
+    const sort = split[0];
+    const order = split[1];
+
     session.set("params", {
-      search: data.search === undefined ? params.search : data.search,
-      orderId: data.orderId === undefined ? "" : data.orderId,
-      orderName: data.orderName === undefined ? "" : data.orderName,
+      search: data.search,
+      sort: sort === undefined ? 'id' : sort,
+      order: order === undefined ? 'asc' : order,
     });
     return redirect("/", {
       headers: {
