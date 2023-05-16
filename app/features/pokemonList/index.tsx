@@ -1,12 +1,31 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import { colorSelection } from "~/utiles/color-selection";
 import PokemonLikeButton from "../likes/components/likeButton";
 
 const PokemonList = () => {
-  const { pokemonList, pokemonLikes, userId } = useLoaderData();
+  const { pokemonList, pokemonLikes, userId, currentPage, listLength } =
+    useLoaderData();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const search = searchParams.get("search");
+
+  const lastPage =
+    pokemonList.length > 0 && search !== ""
+      ? Math.ceil(pokemonList.length / 10)
+      : Math.ceil(listLength / 10);
 
   return (
     <div className="flex flex-col w-full gap-2 text-3xl text-black">
+      <div className="w-full px-3 flex justify-start items-center text-white text-sm">
+        {pokemonList.length !== 0 ? (
+          <span className="">
+            Sida {!currentPage ? 1 : currentPage} av {lastPage}
+          </span>
+        ) : (
+          "Din söktning gav inget resultat. Gör en ny sökning."
+        )}
+      </div>
       {pokemonList?.map(
         (
           pokemons: {

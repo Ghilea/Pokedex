@@ -12,9 +12,9 @@ import {
 } from "~/api/crud";
 import Search from "~/features/pokemonList/components/search";
 import { getSession, commitSession } from "~/services/session.server";
-import { useActionData, useRevalidator } from "@remix-run/react";
+import { useActionData, useRevalidator, useSearchParams } from "@remix-run/react";
 import { useEffect } from "react";
-
+import { Pagination } from "~/features/pokemonList/components/pagination";
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Sök pokémon" }];
 };
@@ -36,6 +36,7 @@ export default function Index() {
 
       <Search />
       <PokemonList />
+      <Pagination />
     </div>
   );
 }
@@ -51,20 +52,27 @@ export async function loader({ request }: LoaderArgs) {
     await downloadPokemonFromAPI();
   }
 
+    const url = new URL(request.url);
+    const searchParams = Object.fromEntries(url.searchParams.entries());
+
+  console.log(session.get("params"))
+
   return {
-    pokemonList: await getPokemons(
-      params?.search,
-      params?.sort,
-      params?.order,
-      params?.currentPage
-    ),
+    pokemonList:
+      searchParams.hasOwnProperty("search") &&
+      searchParams.hasOwnProperty("order") &&
+      searchParams.hasOwnProperty("page")
+        ? await getPokemons(
+            searchParams?.search,
+            searchParams?.order.toString().split(" ")[0],
+            searchParams?.order.toString().split(" ")[1],
+            searchParams?.page
+          )
+        : await getPokemons(),
     pokemonLikes: userId ? await getLikes(userId?.id) : null,
     userId: userId?.id,
-    search: params?.search,
-    sort: params?.sort,
-    order: params?.order,
     listLength: checkDBForPokemons.length,
-    currentPage: params?.currentPage,
+    currentPage: searchParams?.page,
   };
 }
 
@@ -74,28 +82,6 @@ export async function action({ request }: ActionArgs) {
   const data = Object.fromEntries(formData);
 
   const userId: any = session.get("userId");
-
-  if (
-    data.hasOwnProperty("search") ||
-    data.hasOwnProperty("order") ||
-    data.hasOwnProperty("currentPage")
-  ) {
-    const split = data.order.toString().split(" ");
-    const sort = split[0];
-    const order = split[1];
-
-    session.set("params", {
-      search: data.search,
-      sort: sort === undefined ? "id" : sort,
-      order: order === undefined ? "asc" : order,
-      currentPage: Number(data.currentPage),
-    });
-    return redirect("/", {
-      headers: {
-        "Set-Cookie": await commitSession(session),
-      },
-    });
-  }
 
   if (data.hasOwnProperty("pokemon_id")) {
     const isLiked = await getLike(userId?.id, data.pokemon_id);

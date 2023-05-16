@@ -1,17 +1,17 @@
-import { useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData, useSearchParams } from "@remix-run/react";
 import Button from "~/components/buttons/button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export const Pagination = () => {
-  const { currentPage, listLength, pokemonList, search } = useLoaderData();
+  const { currentPage, listLength, pokemonList } = useLoaderData();
 
-  const [page, setPage] = useState(currentPage);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    if (search !== "") {
-      setPage(1);
-    }
-  }, [search]);
+  const order = searchParams.get("order");
+  const search = searchParams.get("search");
+  const page = searchParams.get("page");
+
+  const [sPage, setSPage] = useState<any>(page);
 
   const lastPage =
     pokemonList.length > 0 && search !== ""
@@ -19,36 +19,36 @@ export const Pagination = () => {
       : Math.ceil(listLength / 10);
 
   return (
-    <div className="flex justify-between w-full my-5 gap-4">
-      <input name="currentPage" defaultValue={page} hidden />
+    <Form method="get">
+      <div className="flex justify-center w-full my-5 gap-4 text-sm">
+        <input
+          name="order"
+          defaultValue={`${order || "pokemonId asc"}`}
+          hidden
+        />
+        <input name="search" defaultValue={`${search || ""}`} hidden />
+        <input name="page" defaultValue={`${sPage || "1"}`} hidden />
 
-      <Button
-        onClick={() => setPage((prev: number) => prev - 1 || 1)}
-        disabled={
-          currentPage === 1 || (page * 10 < pokemonList.length && search !== "")
-            ? true
-            : false
-        }
-      >
-        Föregående
-      </Button>
-      <div className="w-full shadow-xl py-2 px-3 flex justify-center items-center gap-1 rounded-md text-white bg-blue-500 bg-opacity-50 hover:bg-opacity-75 transition-all">
-        {pokemonList.length !== 0 ? (
-          <span className="">
-            Sida {!page ? 1 : page} av {lastPage}
-          </span>
-        ) : (
-          "Din söktning gav inget resultat. Gör en ny sökning."
-        )}
+        <Button
+          onClick={() => setSPage(page ? sPage - 1 : 1)}
+          disabled={
+            page === '1' ||
+            (currentPage * 10 < pokemonList.length && search !== "")
+              ? true
+              : false
+          }
+        >
+          Föregående
+        </Button>
+
+        <Button
+          onClick={() => setSPage(page ? Number(sPage) + 1 : page)}
+          disabled={lastPage <= currentPage ? true : false}
+          className={`${"bg-opacity-0"}`}
+        >
+          Nästa
+        </Button>
       </div>
-
-      <Button
-        onClick={() => setPage((prev: number) => prev + 1 || page)}
-        disabled={(lastPage <= currentPage) ? true : false}
-        className={`${"bg-opacity-0"}`}
-      >
-        Nästa
-      </Button>
-    </div>
+    </Form>
   );
 };
