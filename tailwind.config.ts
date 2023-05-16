@@ -27,6 +27,11 @@ export default {
         pokemon: ["Pokemon solid", "sans-serif"],
         roboto: ["Roboto", "sans-serif"],
       },
+      backgroundImage: {
+        'background-pattern':
+          `linear-gradient(to bottom, rgba(78, 84, 200, 0.99), rgba(143, 148, 251, 0.9)), 
+          url('public/assets/images/cover.png')`
+      },
     },
   },
   plugins: [],

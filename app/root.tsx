@@ -22,7 +22,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="h-full min-h-screen relative bg-gradient-to-b from-primary to-primary-light select-none font-Roboto ">
+      <body className="h-full min-h-screen relative bg-background-pattern select-none font-Roboto ">
         <BackgroundAnimation />
 
         <header className="sticky top-0 bg-p-black/70 shadow z-10 w-full mb-16">
