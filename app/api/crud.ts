@@ -75,6 +75,7 @@ export const getLikes: any = async (userId: number) => {
 }
 
 export const getOtherLikes: any = async (userId: number, lastLogin: any) => {
+    console.log('lastLogin', lastLogin, 'id', userId)
     const url = `https://ghilea.se:80/getOtherLikes?userId=${userId}&lastLogin=${moment(lastLogin).format('YYYY-MM-DD HH:mm:ss') }`;
     return await axios.get(url).then(data => data.data);
 }
