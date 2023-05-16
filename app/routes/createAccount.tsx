@@ -28,6 +28,7 @@ export async function action({ request }: ActionArgs) {
   const data = Object.fromEntries(formData);
   const validation = await authControllerCreate(data);
 
+  console.log(validation)
   if (validation === null) {
     session.flash("error", "Kunde inte skapa konto, försök igen.");
 
@@ -38,7 +39,14 @@ export async function action({ request }: ActionArgs) {
     });
   }
 
-  return redirect("/login");
+  session.flash("error", "Grattis, Du har nu ett konto. Vänligen logga in.");
+
+  return redirect("/login", {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
+  //return redirect("/login");
 }
 
 export async function loader({ request }: LoaderArgs) {

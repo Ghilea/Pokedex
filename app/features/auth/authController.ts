@@ -23,7 +23,8 @@ export const authControllerCreate = async (data: any) => {
 
     switch (true) {
         case allGood:
-            return await createAccount({ username: data.username, email: data.email, password: data.password, lastLogin: moment().format('YYYY-MM-DD HH:mm:ss') });
+            createAccount({ username: data.username, email: data.email, password: data.password, lastLogin: moment().format('YYYY-MM-DD HH:mm:ss') });
+            return true;
         default:
             return null;
     }

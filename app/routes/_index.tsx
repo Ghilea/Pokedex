@@ -1,5 +1,4 @@
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
 import PokemonList from "~/features/pokemonList";
 import {
   addLike,
@@ -11,8 +10,8 @@ import {
   downloadPokemonFromAPI,
 } from "~/api/crud";
 import Search from "~/features/pokemonList/components/search";
-import { getSession, commitSession } from "~/services/session.server";
-import { useActionData, useRevalidator, useSearchParams } from "@remix-run/react";
+import { getSession } from "~/services/session.server";
+import { useActionData, useRevalidator } from "@remix-run/react";
 import { useEffect } from "react";
 import { Pagination } from "~/features/pokemonList/components/pagination";
 export const meta: V2_MetaFunction = () => {
@@ -44,7 +43,6 @@ export default function Index() {
 export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const userId: any = session.get("userId");
-  const params: any = session.get("params");
 
   const checkDBForPokemons = await getAllPokemons();
 
@@ -54,8 +52,6 @@ export async function loader({ request }: LoaderArgs) {
 
     const url = new URL(request.url);
     const searchParams = Object.fromEntries(url.searchParams.entries());
-
-  console.log(session.get("params"))
 
   return {
     pokemonList:

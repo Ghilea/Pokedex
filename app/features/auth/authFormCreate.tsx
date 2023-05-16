@@ -36,7 +36,7 @@ const AuthForm = () => {
       </div>
 
       <div className="flex flex-row items-center justify-end w-full px-2">
-        <Button type="submit">Skapa</Button>
+        <Button>Skapa</Button>
       </div>
     </Form>
   );
