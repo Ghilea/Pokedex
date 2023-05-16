@@ -43,7 +43,7 @@ const PokemonList = () => {
               )} hover:opacity-50`}
               key={pokemons.name + index}
             >
-              <div className="sm:flex items-center justify-center hidden sm:w-fit max-w-5 h-5 p-5 text-lg rounded-full shadow-lg bg-gradient-to-r from-slate-100 to-slate-300">
+              <div className="flex items-center justify-center w-fit max-w-5 h-5 p-5 text-lg rounded-full shadow-lg bg-gradient-to-r from-slate-100 to-slate-300">
                 #{pokemons.pokemonId}
               </div>
 
@@ -53,7 +53,7 @@ const PokemonList = () => {
                 </Link>
               </div>
 
-              <div className="w-0 sm:w-36 sm:h-auto">
+              <div className="sm:w-36 sm:h-auto">
                 <img
                   className="object-cover object-center w-36 h-auto opacity-70"
                   src={pokemons.image}
