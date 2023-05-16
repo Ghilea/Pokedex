@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 
 export const downloadPokemonFromAPI: any = async () => {
-    const url = "https://pokeapi.co/api/v2/pokemon?limit=30";
+    const url = "https://pokeapi.co/api/v2/pokemon?limit=1015";
 
     const pokemons = await axios.get(url)
         .then(async (res: any) => {

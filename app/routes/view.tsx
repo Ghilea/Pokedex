@@ -29,14 +29,30 @@ export default function View() {
 
   return pokemon.map((item: any) => {
     return (
-      <div key={item.name} className="flex flex-col w-full gap-5 text-white">
-        <NavLink
-          className="flex items-center justify-center w-10 h-10 text-4xl rounded-full hover:opacity-50"
-          to="/"
-        >
-          <img src={goBackIcon} alt="Tillbaka" />
-        </NavLink>
-        <h1 className="flex justify-center text-5xl capitalize mt-24 mb-36">
+      <div
+        key={item.name}
+        className="relative flex flex-col w-full gap-5 text-white"
+      >
+        <div className="fixed bottom-0 inset-x-0 gap-1 z-10 pb-1 bg-black/60 flex items-center justify-center w-full">
+          <div className="w-full">
+            <NavLink
+              className="shadow flex-col w-full flex items-center justify-center h-10 text-4xl hover:opacity-50"
+              to="/"
+            >
+              <img src={goBackIcon} alt="Tillbaka" />
+            </NavLink>
+          </div>
+          <div className="w-full">
+            {userId && (
+              <PokemonLikeButton
+                className="shadow flex flex-col items-center justify-center w-full text-4xl hover:opacity-50"
+                data={like}
+                id={item.pokemonId}
+              />
+            )}
+          </div>
+        </div>
+        <h1 className="flex justify-center text-5xl capitalize mb-16">
           {item.name}
         </h1>
         <div className="flex flex-col justify-center gap-10 md:flex-row md:justify-evenly">
@@ -47,7 +63,6 @@ export default function View() {
           <div className="w-full flex flex-col gap-5">
             <h2 className="text-3xl">Information</h2>
             <p className="text-sm">(Kom ihåg att gilla dina älsklingar)</p>
-            {userId && <PokemonLikeButton data={like} id={item.id} />}
 
             <div className="flex flex-col gap-3">
               <h3>Typ</h3>
@@ -82,7 +97,7 @@ export default function View() {
                   return (
                     <ProgressBar
                       name={state.name}
-                      progress={100}
+                      progress={120}
                       amount={state.amount}
                       key={state.name}
                     />

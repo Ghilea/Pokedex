@@ -20,7 +20,6 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function Index() {
-
   const actionData = useActionData<typeof action>();
 
   const revalidator = useRevalidator();
@@ -53,7 +52,6 @@ export async function loader({ request }: LoaderArgs) {
     await downloadPokemonFromAPI();
   }
 
-  console.log('params', params)
   return {
     pokemonList: await getPokemons(
       params?.search,
@@ -78,29 +76,29 @@ export async function action({ request }: ActionArgs) {
 
   const userId: any = session.get("userId");
 
-  if (!data.search || data.search || data.order || data.currentPage) {
-    
-    console.log('data to be set', data)
+  if (
+    data.hasOwnProperty("search") ||
+    data.hasOwnProperty("order") ||
+    data.hasOwnProperty("currentPage")
+  ) {
     const split = data.order.toString().split(" ");
     const sort = split[0];
     const order = split[1];
 
-    console.log(
-      data.currentPage,
-      data.currentPage === undefined ? 1 : Number(data.currentPage)
-    );
     session.set("params", {
       search: data.search,
       sort: sort === undefined ? "id" : sort,
       order: order === undefined ? "asc" : order,
-      currentPage: data.currentPage === undefined ? 1 : Number(data.currentPage),
+      currentPage: Number(data.currentPage),
     });
     return redirect("/", {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
     });
-  } else {
+  }
+
+  if (data.hasOwnProperty("pokemon_id")) {
     const isLiked = await getLike(userId?.id, data.pokemon_id);
 
     isLiked.length > 0

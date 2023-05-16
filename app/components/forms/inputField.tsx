@@ -51,14 +51,16 @@ const InputField = ({
       >
         <div className="flex items-center w-full">
           <input
+            hidden
             required={required}
             placeholder={placeholder}
             type={type}
             id={name}
             name={name}
-            className={`flex items-center rounded-3xl p-5 border-none w-full ${classes} ${className}`}
-            value={value}
-            defaultValue={defaultValue}
+            className={`flex items-center rounded-3xl p-5 border-none w-full placeholder-gray-500 ${classes} ${className}`}
+            {...(value
+              ? (value = { value })
+              : (defaultValue = { defaultValue }))}
             onChange={onChange}
             autoComplete="off"
             {...restProps}

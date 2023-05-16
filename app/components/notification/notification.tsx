@@ -2,22 +2,20 @@ import { useEffect, useState } from "react";
 import notifcationImage from "public/assets/icons/notification.svg";
 import { getNotification, deleteNotification } from "~/api/crud";
 import addOrUpdatePokemonLikes from "~/features/likes";
+import { useLoaderData } from "@remix-run/react";
 
-interface Props {
-  session: any;
-}
-
-const Notification = ({ session }: Props) => {
+const Notification = () => {
+  const { user } = useLoaderData();
   const [notification, setNotification] = useState<number>(0);
   const [notificationList, setNotificationList] = useState<string[]>([]);
   const [isExpanded, setIsExpanded] = useState<Boolean>(false);
 
   useEffect(() => {
     const time = setInterval(async () => {
-      await addOrUpdatePokemonLikes(session);
+      await addOrUpdatePokemonLikes(user);
 
-      if (session) {
-        const notification = await getNotification(session.id);
+      if (user) {
+        const notification = await getNotification(user.id);
         notification?.map((item: any) => {
           return Promise.all([
             setNotification(JSON.parse(item.likes).length),
@@ -28,17 +26,17 @@ const Notification = ({ session }: Props) => {
     }, 10000);
 
     return () => clearInterval(time);
-  }, [session]);
+  }, [user]);
 
   useEffect(() => {
     if (isExpanded && notification > 0) {
       setNotification(0);
 
-      if (session) {
-        deleteNotification(session.id);
+      if (user) {
+        deleteNotification(user.id);
       }
     }
-  }, [isExpanded, notification, session]);
+  }, [isExpanded, notification, user]);
 
   return (
     <>

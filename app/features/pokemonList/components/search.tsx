@@ -2,6 +2,7 @@ import InputField from "../../../components/forms/inputField";
 import Button from "~/components/buttons/button";
 import { Form, useFetcher, useLoaderData } from "@remix-run/react";
 import { Pagination } from "./pagination";
+
 const Search = () => {
   const { search, sort, order } = useLoaderData();
 
@@ -34,15 +35,14 @@ const Search = () => {
             defaultValue={`${sort} ${order}`}
             className="w-full max-w-fit shadow-xl py-2 px-3 flex justify-center items-center gap-1 rounded-md text-white bg-blue-500 bg-opacity-50 hover:bg-opacity-75 transition-all"
           >
-            {/*  "/assets/icons/arrowUp.svg" <img src="/assets/icons/arrowDown.svg" alt="" /> */}
             <option value="pokemonId asc">&darr; Id</option>
             <option value="name asc">&darr; Namn</option>
             <option value="pokemonId desc">&uarr; Id</option>
             <option value="name desc">&uarr; Namn</option>
           </select>
         </div>
-
-        <Pagination />
+        
+          <Pagination />
       </Form>
     </>
   );

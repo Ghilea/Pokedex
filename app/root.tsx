@@ -7,7 +7,6 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import appStyles from "./styles/app.css";
-import cssReset from "./styles/components/reset.css";
 import cssFloating from "./styles/components/floating.css";
 import Navigation from "./features/navigation";
 import type { LoaderArgs } from "@remix-run/node";
@@ -26,7 +25,7 @@ export default function App() {
       <body className="min-h-full relative bg-gradient-to-b from-primary to-primary-light select-none font-Roboto">
         <Navigation />
 
-        <main className="flex flex-col items-center justify-center my-[10em] max-w-screen-xl mx-auto px-10">
+        <main className="flex flex-col items-center justify-center my-36 max-w-screen-xl mx-auto px-3">
           <Outlet />
         </main>
         <BackgroundAnimation />
@@ -45,10 +44,6 @@ export async function loader({ request }: LoaderArgs) {
 
 export function links() {
   return [
-    {
-      rel: "stylesheet",
-      href: cssReset,
-    },
     {
       rel: "stylesheet",
       href: cssFloating,

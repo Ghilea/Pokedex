@@ -2,11 +2,8 @@ import { useState } from "react";
 import Hamburger from "./components/hamburger";
 import LogoBrand from "./components/logoBrand";
 import MenuLinks from "./components/menuLinks";
-import { useLoaderData } from "@remix-run/react";
-
 
 const Navigation = () => {
-  const { user } = useLoaderData();
 
   const [isExpanded, setIsExpanded] = useState<Boolean>(true);
 
@@ -17,7 +14,7 @@ const Navigation = () => {
         <Hamburger onClick={() => setIsExpanded(!isExpanded)} />
 
         <div className={`${isExpanded && "hidden"} w-full md:block md:w-auto`}>
-          <MenuLinks session={user} />
+          <MenuLinks />
         </div>
       </nav>
     </header>
