@@ -42,7 +42,7 @@ export const Pagination = () => {
         </Button>
 
         <Button
-          onClick={() => setSPage(page ? Number(sPage) + 1 : page)}
+          onClick={() => setSPage(page ? Number(sPage) +1 : page)}
           disabled={lastPage <= currentPage ? true : false}
           className={`${"bg-opacity-0"}`}
         >
