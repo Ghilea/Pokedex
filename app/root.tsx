@@ -22,13 +22,16 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="min-h-full relative bg-gradient-to-b from-primary to-primary-light select-none font-Roboto">
-        <Navigation />
+      <body className="h-full min-h-screen relative bg-gradient-to-b from-primary to-primary-light select-none font-Roboto ">
+        <BackgroundAnimation />
 
-        <main className="flex flex-col items-center justify-center my-36 max-w-screen-xl mx-auto px-3">
+        <header className="sticky top-0 bg-p-black/70 shadow z-10 w-full mb-16">
+          <Navigation />
+        </header>
+        <main className="flex flex-col items-center justify-start max-w-screen-xl mx-auto px-3 min-h-full py-36">
           <Outlet />
         </main>
-        <BackgroundAnimation />
+
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

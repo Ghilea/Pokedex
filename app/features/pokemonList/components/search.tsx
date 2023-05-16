@@ -9,10 +9,11 @@ const Search = () => {
   const fetcher = useFetcher();
 
   return (
-    <>
+    <div className="flex flex-col items-center justify-start max-w-screen-md gap-3 mb-3 w-full">
+      {" "}
       <Form
         method="post"
-        className="flex flex-col items-center justify-start w-full gap-3 mb-3"
+        className="flex flex-col items-center justify-start max-w-screen-md gap-3 mb-3 w-full"
       >
         <div className="flex w-full gap-2">
           <InputField
@@ -41,10 +42,10 @@ const Search = () => {
             <option value="name desc">&uarr; Namn</option>
           </select>
         </div>
-        
-          <Pagination />
+
+        <Pagination />
       </Form>
-    </>
+    </div>
   );
 };
 

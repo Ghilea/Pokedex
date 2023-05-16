@@ -29,15 +29,14 @@ export default function Index() {
   }, [actionData]);
 
   return (
-    <>
-      <h1 className="mb-16 text-2xl md:text-4xl text-white font-pokemon tracking-widest">
+    <div className="w-full flex justify-center items-center flex-col max-w-screen-md mb-36">
+      <h1 className="flex justify-center items-center text-2xl md:text-4xl text-white font-pokemon tracking-widest mb-16">
         Gotta Catch ’Em All!
       </h1>
-      <div className="w-full h-full flex justify-center items-center flex-col max-w-screen-md">
-        <Search />
-        <PokemonList />
-      </div>
-    </>
+
+      <Search />
+      <PokemonList />
+    </div>
   );
 }
 

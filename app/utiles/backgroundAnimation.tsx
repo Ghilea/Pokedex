@@ -4,7 +4,7 @@ const BackgroundAnimation = () => {
 
   const amount: number = 10;
   return (
-    <ul className="fixed inset-0 w-full h-full overflow-hidden circles">
+    <ul className="absolute inset-0 w-full h-full overflow-hidden circles">
       {[...Array(amount)].map((x, index) => (
         <li
           className="flex justify-center items-center absolute w-[20px] h-[20px] bottom-[-150px] list-none bg-p-grey-light/20"
