@@ -7,6 +7,7 @@ type SessionData = {
 
 type SessionFlashData = {
     error: string;
+    success: string | Array<any>;
 };
 
 const { getSession, commitSession, destroySession } =

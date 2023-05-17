@@ -44,31 +44,43 @@ export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const userId: any = session.get("userId");
 
+  const url = new URL(request.url);
+  const searchParams = Object.fromEntries(url.searchParams.entries());
+
   const checkDBForPokemons = await getAllPokemons();
 
   if (checkDBForPokemons.length === 0) {
     await downloadPokemonFromAPI();
   }
 
-    const url = new URL(request.url);
-    const searchParams = Object.fromEntries(url.searchParams.entries());
+  const order = searchParams?.order;
+  const search = searchParams?.search;
+  const page = searchParams?.page;
 
+  const pokemonList =
+    searchParams.hasOwnProperty("search") &&
+    searchParams.hasOwnProperty("order") &&
+    searchParams.hasOwnProperty("page")
+      ? await getPokemons(
+          search,
+          order.toString().split(" ")[0],
+          order.toString().split(" ")[1],
+          page
+        )
+      : await getPokemons();
+
+  const lastPage =
+    pokemonList.length > 0 && search !== ""
+      ? Math.ceil(pokemonList.length / 10)
+      : Math.ceil(checkDBForPokemons.length / 10);
+
+  const pokemonLikes = userId ? await getLikes(userId?.id) : null;
+  
   return {
-    pokemonList:
-      searchParams.hasOwnProperty("search") &&
-      searchParams.hasOwnProperty("order") &&
-      searchParams.hasOwnProperty("page")
-        ? await getPokemons(
-            searchParams?.search,
-            searchParams?.order.toString().split(" ")[0],
-            searchParams?.order.toString().split(" ")[1],
-            searchParams?.page
-          )
-        : await getPokemons(),
-    pokemonLikes: userId ? await getLikes(userId?.id) : null,
+    pokemonList: pokemonList,
+    pokemonLikes: pokemonLikes,
     userId: userId?.id,
-    listLength: checkDBForPokemons.length,
-    currentPage: searchParams?.page,
+    lastPage: lastPage,
   };
 }
 

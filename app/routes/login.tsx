@@ -12,13 +12,14 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function Login() {
-  const { error } = useLoaderData<typeof loader>();
+  const { error, success } = useLoaderData<typeof loader>();
 
   return (
     <>
       <h1 className="mb-16 text-5xl text-white">Logga in</h1>
       <div className="flex flex-col items-center justify-center w-full h-full max-w-[40em]">
-        {error ? <div className="text-white error">{error}</div> : null}
+        {error ? <div className="text-white">{error}</div> : null}
+        {success ? <div className="text-white">{success}</div> : null}
         <AuthForm />
       </div>
     </>
@@ -31,8 +32,8 @@ export async function action({ request }: ActionArgs) {
   const data = Object.fromEntries(formData);
   const validation = await authControllerLogin(data);
 
-  if (validation === null) {
-    session.flash("error", "Ogiltigt användarnamn eller lösenord");
+  if (validation.hasOwnProperty("error")) {
+    session.flash("error", String(validation.error));
 
     return redirect("/login", {
       headers: {
@@ -41,10 +42,10 @@ export async function action({ request }: ActionArgs) {
     });
   }
 
-  session.set("userId", validation[0]);
+  session.set("userId", validation.success);
 
-  addOrUpdatePokemonLikes(validation[0]);
-  dateLoginToUserAccount(validation[0].id);
+  addOrUpdatePokemonLikes(validation.success);
+  dateLoginToUserAccount(validation.success.id);
 
   return redirect("/", {
     headers: {
@@ -60,7 +61,7 @@ export async function loader({ request }: LoaderArgs) {
     return redirect("/");
   }
 
-  const data = { error: session.get("error") };
+  const data = { error: session.get("error"), success: session.get("success") };
 
   return json(data, {
     headers: {

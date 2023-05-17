@@ -3,24 +3,19 @@ import { colorSelection } from "~/utiles/color-selection";
 import PokemonLikeButton from "../likes/components/likeButton";
 
 const PokemonList = () => {
-  const { pokemonList, pokemonLikes, userId, currentPage, listLength } =
+  const { pokemonList, pokemonLikes, userId, lastPage } =
     useLoaderData();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  const search = searchParams.get("search");
-
-  const lastPage =
-    pokemonList.length > 0 && search !== ""
-      ? Math.ceil(pokemonList.length / 10)
-      : Math.ceil(listLength / 10);
+  const page = Number(searchParams.get("page"));
 
   return (
     <div className="flex flex-col w-full gap-2 text-3xl text-black">
       <div className="w-full px-3 flex justify-start items-center text-white text-sm">
         {pokemonList.length !== 0 ? (
           <span className="">
-            Sida {!currentPage ? 1 : currentPage} av {lastPage}
+            Sida {!page ? 1 : page} av {lastPage}
           </span>
         ) : (
           "Din söktning gav inget resultat. Gör en ny sökning."

@@ -15,7 +15,7 @@ export default function CreateAccount() {
     <>
       <h1 className="mb-16 text-5xl text-white">Skapa konto</h1>
       <div className="flex flex-col items-center justify-center w-full h-full max-w-[40em]">
-        {error ? <div className="text-white error">{error}</div> : null}
+        {error ? <div className="text-white">{error}</div> : null}
         <AuthForm />
       </div>
     </>
@@ -28,9 +28,10 @@ export async function action({ request }: ActionArgs) {
   const data = Object.fromEntries(formData);
   const validation = await authControllerCreate(data);
 
-  console.log(validation)
-  if (validation === null) {
-    session.flash("error", "Kunde inte skapa konto, försök igen.");
+  console.log('validate', validation);
+
+  if (validation.hasOwnProperty('error')) {
+    session.flash("error", String(validation.error));
 
     return redirect("/createAccount", {
       headers: {
@@ -39,14 +40,13 @@ export async function action({ request }: ActionArgs) {
     });
   }
 
-  session.flash("error", "Grattis, Du har nu ett konto. Vänligen logga in.");
+  session.flash("success", String(validation.success));
 
   return redirect("/login", {
     headers: {
       "Set-Cookie": await commitSession(session),
     },
   });
-  //return redirect("/login");
 }
 
 export async function loader({ request }: LoaderArgs) {
