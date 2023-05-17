@@ -49,7 +49,7 @@ const Notification = () => {
         </div>
       )}
       {isExpanded && notificationList.length > 0 && (
-        <div className="absolute flex items-center justify-start p-5 bg-white rounded-md w-full sm:w-[400px] top-10 right-5">
+        <div className="absolute flex items-center justify-start p-5 bg-white rounded-md w-full sm:w-[400px] sm:top-14 left-0 right-0 sm:right-5 sm:left-auto">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="absolute top-1 right-3"
@@ -67,17 +67,6 @@ const Notification = () => {
           </ul>
         </div>
       )}
-      <div className="absolute flex items-center justify-start p-5 bg-white rounded-md w-full sm:w-[400px] sm:top-14 left-0 right-0 sm:right-5 sm:left-auto">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="absolute top-1 right-3"
-        >
-          X
-        </button>
-        <ul>
-    
-        </ul>
-      </div>
     </>
   );
 };
