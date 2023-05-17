@@ -28,8 +28,6 @@ export async function action({ request }: ActionArgs) {
   const data = Object.fromEntries(formData);
   const validation = await authControllerCreate(data);
 
-  console.log('validate', validation);
-
   if (validation.hasOwnProperty('error')) {
     session.flash("error", String(validation.error));
 
