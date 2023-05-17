@@ -18,7 +18,6 @@ export const Pagination = () => {
       ? Math.ceil(pokemonList.length / 10)
       : Math.ceil(listLength / 10);
 
-  console.log("page", page)
   return (
     <Form method="get">
       <div className="flex justify-center w-full my-5 gap-4 text-sm">
