@@ -18,6 +18,7 @@ export const Pagination = () => {
       ? Math.ceil(pokemonList.length / 10)
       : Math.ceil(listLength / 10);
 
+  console.log("page", page)
   return (
     <Form method="get">
       <div className="flex justify-center w-full my-5 gap-4 text-sm">
@@ -30,9 +31,9 @@ export const Pagination = () => {
         <input name="page" defaultValue={`${sPage || "1"}`} hidden />
 
         <Button
-          onClick={() => setSPage(page ? sPage - 1 : 1)}
+          onClick={() => setSPage(page ? Number(page) - 1 : 1)}
           disabled={
-            page === '1' ||
+            !page || page === "1" ||
             (currentPage * 10 < pokemonList.length && search !== "")
               ? true
               : false
@@ -42,7 +43,7 @@ export const Pagination = () => {
         </Button>
 
         <Button
-          onClick={() => setSPage(page ? Number(sPage) +1 : page)}
+          onClick={() => setSPage(page ? Number(page) + 1 : 2)}
           disabled={lastPage <= currentPage ? true : false}
           className={`${"bg-opacity-0"}`}
         >
